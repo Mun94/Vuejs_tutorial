@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>vuejs 애완용품샵</title>
+<script src="https://unpkg.com/vue"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <header>
+        <h1 v-text="sitename"></h1>
+        <p>test {{sitename}}</p>
+      </header>
+    </div>
+
+    <script type="text/javascript">
+      var webstore = new Vue({
+        el:"#app",
+        data:{
+          sitename:"vuejs 애완용품샵"
+        }
+      })
+    </script>
+  </body>
+</html>
