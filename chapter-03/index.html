@@ -33,7 +33,10 @@
               {{product.price | formatPrice}}
             </p>
             <button class="btn btn-primary btn-lg"
-              v-on:click="addToCart" v-show="canAddToCart">장바구니 담기
+              v-on:click="addToCart" v-if="canAddToCart">장바구니 담기
+            </button>
+            <button disabled="true" class="btn btn-primay btn-lg" v-else>
+              장바구니 담기
             </button>
           </div>
         </div>
@@ -63,7 +66,7 @@
       },
     },
     computed: {
-      cartItemCount() {
+      cartItemCount:function() {
         return this.cart.length || '';
       },
       canAddToCart(){
