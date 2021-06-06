@@ -15,12 +15,15 @@
             <h1>{{ sitename }}</h1>
           </div>
           <div class="nav navbar-nav navbar-right cart">
+            <button type="button" v-on:click="showCheckout">
             <span class="glyphicon glyphicon-shopping-cart">{{ cartItemCount }}</span>
+            <span>체크아웃</span>    
+            </button>
           </div>
         </div>
       </header>
       <div class="row product">
-        <div>
+        <div v-if="showProduct">
           <div class="col-md-2 col-md-offset-1">
             <figure>
               <img v-bind:src="product.image">
@@ -40,6 +43,9 @@
             </button>
           </div>
         </div>
+
+        <div v-else>
+        </div>
       </div><!--end of row-->
 
     </main><!--end of main-->
@@ -56,14 +62,18 @@
         description: "당신의 고양이를 위한 <em>거부할 수 없는</em>, 유기농 25파운드 사료입니다.",
         price: 2000,
         image: "assets/images/product-fullsize.png",
-        availableInventory:5
+        availableInventory:5,
       },
+      showProduct:true,
       cart:[]
     },
     methods: {
       addToCart: function() {
         this.cart.push( this.product.id );
       },
+      showCheckout(){
+        this.showProduct = this.showProduct ? false : true
+      }
     },
     computed: {
       cartItemCount:function() {
