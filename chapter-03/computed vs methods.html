@@ -1,0 +1,101 @@
+<!-- computed -->
+<!-- <html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+
+  <body>
+      <div id="app">
+        <main>
+          {{isLargetThanTen}}
+          <button v-on:click="count ++">클릭</button>
+        </main>
+
+        <script>
+          const app = new Vue({
+            el:"#app",
+            data:{
+              count:0
+            },
+            computed:{
+              isLargetThanTen:function(){
+                return this.count * 3 > 10 ? "10보다 큽니다." : "10보다 작거나 같습니다."
+              }
+            }
+          })
+        </script>
+      </div>
+  </body>
+</html> -->
+
+<!-- methods -->
+<!-- <html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+
+  <body>
+      <div id="app">
+        <main>
+          {{isLargetThanTen()}}
+          <button v-on:click="count ++">클릭</button>
+        </main>
+
+        <script>
+          const app = new Vue({
+            el:"#app",
+            data:{
+              count:0
+            },
+            methods:{
+              isLargetThanTen:function(){
+                return this.count * 3 > 10 ? "10보다 큽니다." : "10보다 작거나 같습니다."
+              }
+            }
+          })
+        </script>
+      </div>
+  </body>
+</html> -->
+
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <main>
+        <p>count:{{count}}</p>
+        <p>second count:{{secondCount}}</p>
+        <p>computed:{{double}}</p>
+        <p>methods:{{triple()}}</p>
+
+        <button v-on:click = "count ++">클릭</button>
+        <button v-on:click = "secondCount ++">클릭</button>
+      </main>
+
+      <script>
+        const app = new Vue({
+          el:"#app",
+          data:{
+            count:0,
+            secondCount:0
+          },
+          computed:{
+            double:function(){
+              console.log('Computed double')
+              return this.count * 2
+            }
+          },
+          methods:{
+            triple: function(){
+              console.log('methods triple')
+              return this.count * 3
+            }
+          }
+        })
+      </script>
+    </div>
+  </body>
+</html>
