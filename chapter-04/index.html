@@ -47,7 +47,7 @@
         <div v-else>
           <div class="col-md-6">
             <strong>이름:</strong>
-            <input v-model="order.firstName" class="form-control"/>
+            <input v-model.lazy="order.firstName" class="form-control"/>
           </div>
           <div class="col-md-6">
             <strong>성:</strong>
@@ -55,11 +55,11 @@
           </div>
           <div class="form-group">
             <div class="col-md-12"><strong>주소:</strong></div>
-            <div class="col-md-12"><input v-model="order.address" class="form-control"/></div>
+            <div class="col-md-12"><input v-model.trim="order.address" class="form-control"/></div>
           </div>
           <div class="form-group">
             <div class="col-md-12"><strong>도시:</strong></div>
-            <div class="col-md-12"><input v-model="order.city" class="form-control"/></div>
+            <div class="col-md-12"><input v-model.trim="order.city" class="form-control"/></div>
           </div>
           <div class="form-group">
             <div class="col-md-2">
@@ -80,7 +80,7 @@
         <div class="form-group">
           <div class="col-md-6 col-md-offset-4">
             <strong>우편번호:</strong>
-            <input v-model="order.zip" class="form-control"/>
+            <input v-model.number="order.zip" class="form-control"/>
           </div>
         </div>
         <div class="form-group">
