@@ -66,10 +66,7 @@
               <strong>주:</strong>
               <select v-model="order.state" class="form-control">
                 <option disabled value="">주</option>
-                <option>AL</option>
-                <option>AR</option>
-                <option>CA</option>
-                <option>NV</option>
+                <option v-for="(state, key) in states" v-bind:value="state">{{key}}</option>
               </select>
             </div>
           </div>
@@ -152,6 +149,12 @@
         sendGift:"선물로 보내기",
         dontSendGift:"선물로 보내지 않기"
       },
+      states:{
+        AL:'알라바마',
+        AR:'애리조나',
+        CA:'캘리포니아',
+        NV:'네바다'
+      },
       cart:[]
     },
     methods: {
@@ -196,3 +199,4 @@
   </script>
 </body>
 </html>
+
