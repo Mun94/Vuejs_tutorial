@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <form-component :author="authorLabel" :title="titleLabel">
+        <h1>{{header}}</h1>
+      </form-component>
+    </div>
+
+    <script>
+      const FormComponet = {
+        template:`
+            <div>
+              <form>
+                <slot></slot>
+                <label for="title">{{title}}</label>
+                <input type="text" id="title">
+                <br/>
+                <label for="author">{{author}}</label>
+                <input type="text" id="author">
+                <br/>
+                <button>제출하기</button>
+              </form>
+            </div>
+        `,
+        props:['author', 'title']
+      }
+
+      new Vue({
+        el:"#app",
+        data(){
+          return {
+            titleLabel:'제목:',
+            authorLabel:'저자:',
+            header:'책 저자 폼'
+          }
+        },
+        components:{'form-component':FormComponet},
+      })
+    </script>
+  </body>
+</html>
