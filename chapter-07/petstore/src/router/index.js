@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Main from "@/components/Main";
 import Form from "@/components/Form";
+import Product from "@/components/Product";
 
 Vue.use(Router);
 
@@ -18,6 +19,12 @@ export default new Router({
       path: "/form",
       name: "Form",
       component: Form,
+      props: true
+    },
+    {
+      path: "/product/:id",
+      name: "Id",
+      component: Product,
       props: true
     },
     {
