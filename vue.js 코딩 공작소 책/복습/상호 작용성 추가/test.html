@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta charset = "UTF-8"/>
+        <script src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id = "app">
+            <button @click = "addPerson">Add Person</button>
+
+            <div v-for = "person in persons">
+                {{person.name}}
+            </div>
+        </div>
+
+        <script>
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    persons: [{name: 'Joe'}, {name: 'Jame'}]
+                },
+                methods: {
+                    addPerson() {
+                        this.persons.push({name: 'Mary'})
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
