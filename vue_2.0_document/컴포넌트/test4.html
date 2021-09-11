@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <script src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id = "app">
+            <keep-alive>
+                <component v-bind:is = "currentView">
+                </component>
+            </keep-alive>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    currentView: 'posts'
+                },
+                components: {
+                    home: {
+                        template: '<div>home</div>'
+                    },
+                    posts: {
+                        template: '<div>posts</div>'
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
