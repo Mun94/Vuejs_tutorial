@@ -4,6 +4,7 @@ import Main from '@/components/Main';
 import Form from '@/components/Form';
 import Product from '@/components/Product';
 import EditProduct from '@/components/EditProduct';
+import Test from '@/components/Test';
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       children: [
         { path: 'edit', name: 'Edit', component: EditProduct, props: true}
       ]
+    },{
+      path: '/test',
+      name: 'Test',
+      component: Test,
+      props: true
     },{
       path: '*',
       redirect: '/'
