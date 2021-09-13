@@ -1,13 +1,15 @@
 <template>
     <div class = "recordPadWrap">
-        asdasd
+        {{ test }}
     </div>
 </template>
 
 <script lang = "ts">
     export default {
         name: 'RecordPad',
-        data() { return {}}
+        data() { return {
+            test: this.$store.getters.recordVal
+        }}
     }
 </script>
 
