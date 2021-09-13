@@ -1,5 +1,5 @@
 <template>
-    <div class = "wrap">
+    <div class = "CalculatorPadWrap">
         <table class = "tableWrap">
             <tr>
                 <td><Button></Button></td>
@@ -45,21 +45,22 @@
     import Button from './common/Button.vue';
 
     export default {
-        name: 'Home',
-        data(){
-            return {
-            }
+        name: 'CalculatorPad',
+        data() {
+            return {}
         },
-        components: {Button}
+        components: { Button }
     }
 </script>
 
 <style scoped>
-    .wrap {
+    .calculatorPadWrap {
         width: 500px;
     }
 
     .tableWrap {
         width: 100%;
+        border-collapse: collapse; 
+        border-spacing: 0;
     }
 </style>

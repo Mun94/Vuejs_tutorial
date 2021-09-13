@@ -1,17 +1,26 @@
 <template>
-  <div class="home">
-    <HomeCom msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class = 'block'>
+    <CalculationScreen/>
+    <CalculatorPad/>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HomeCom from '../components/HomeCom.vue'; // @ is an alias to /src
+<script lang = 'ts'>
+  import { defineComponent } from 'vue';
+  import CalculatorPad from '../components/CalculatorPad.vue';
+  import CalculationScreen from '../components/CalculationScreen.vue';
 
-export default defineComponent({
-  name: 'Home',
-  components: {
-    HomeCom,
-  },
-});
+  export default defineComponent({
+    name: 'Home',
+    components: {
+      CalculatorPad,
+      CalculationScreen
+    },
+  });
 </script>
+
+<style scoped>
+  .block {
+    background: #000000;
+  }
+</style>>

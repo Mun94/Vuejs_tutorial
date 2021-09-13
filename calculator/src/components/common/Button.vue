@@ -14,7 +14,7 @@
             };
         },
         methods: {
-            color() {
+            color():string {
                 return this.valType === 'num' ? '#111111' : '#343434';
             }
         }
@@ -26,10 +26,10 @@
         width : 100%;
         height: 60px;
 
-        border: none;
+        /* border: none; */
         background: v-bind('backgroundColor');
 
-        color: white;
+        color: #FFFFFF;
         font-size: 20px;
         cursor: pointer;
     }
