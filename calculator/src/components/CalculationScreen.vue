@@ -2,7 +2,7 @@
     <div class = 'screenWrap'>
         <div class = "title">계산기</div>
         <div class = "recordIcon">
-            <font-awesome-icon icon="user-secret" />
+            <font-awesome-icon icon="user-secret" @click = "changeScreen"/>
         </div>
          <div class = "process">
             {{ processGet || '계산 과정'}}
@@ -17,6 +17,11 @@
     export default {
         name: 'CalculatorScreen',
         data() { return {}},
+        methods: {
+            changeScreen() {
+                this.$store.commit('Change')
+            }
+        },
         computed: {
             processGet() {
                 return this.$store.getters.processVal
@@ -49,6 +54,8 @@
 
     .recordIcon {
         font-size: 25px;
+
+        cursor: pointer;
     }
 
     .result, .process {

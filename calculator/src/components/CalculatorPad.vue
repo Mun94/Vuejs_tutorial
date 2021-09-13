@@ -52,7 +52,7 @@
         methods: {
             clickEvent(val: string, symbol: string): void {
                 this.$store.dispatch('cal', {val, symbol})
-            }
+            },
         },
         components: { Button }
     }
@@ -61,11 +61,25 @@
 <style scoped>
     .calculatorPadWrap {
         width: 500px;
+        height: 100%;
     }
 
     .tableWrap {
         width: 100%;
+        height: 100%;
         border-collapse: collapse; 
         border-spacing: 0;
+    }
+
+    td{
+        width: 100%;
+    }
+    tr{
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
     }
 </style>
