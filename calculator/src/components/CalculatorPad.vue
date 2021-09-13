@@ -5,13 +5,13 @@
                 <td><Button></Button></td>
                 <td><Button>CE</Button></td>
                 <td><Button>C</Button></td>
-                <td><Button><font-awesome-icon icon="user-secret" /></Button></td>
+                <td><Button @click = "clickEvent('7', 'backspace')"><font-awesome-icon icon="user-secret" /></Button></td>
             </tr>
             <tr>
                 <td><Button></Button></td>
                 <td><Button></Button></td>
                 <td><Button></Button></td>
-                <td><Button>/</Button></td>
+                <td><Button @click = "clickEvent('/', 'operator')">/</Button></td>
             </tr>
             <tr>
                 <td><Button valType = "num" @click = "clickEvent('7', 'number')">7</Button></td>
@@ -34,7 +34,7 @@
             <tr>
                 <td><Button valType = "num">+/-</Button></td>
                 <td><Button valType = "num" @click = "clickEvent('0', 'number')">0</Button></td>
-                <td><Button valType = "num">.</Button></td>
+                <td><Button valType = "num" @click = "clickEvent('.', 'number')">.</Button></td>
                 <td><Button @click = "clickEvent('+', 'equals')">=</Button></td>
             </tr>
         </table>

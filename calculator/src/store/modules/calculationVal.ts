@@ -1,15 +1,15 @@
 interface stateType {
-    result: string;
+    clickVal: string;
     process: string;
 
-    testVal: number;
+    resultVal: number;
 };
 
 const state: stateType = {
-    result: '',
+    clickVal: '',
     process: '',
 
-    testVal: 0
+    resultVal: 0
 };
 
 let check = true;
@@ -21,43 +21,46 @@ const actions = {
             case 'operator':
                 if(check) {
                     commit('Process', val);
-                    state.result = '';
-                    if(state.testVal) {
-                        state.process = '' + state.testVal;
+                    state.clickVal = '';
+                    if(state.resultVal) {
+                        state.process = '' + state.resultVal;
                         commit('Process', val);
-                        state.testVal = 0
+                        state.resultVal = 0
                     }
                     check = false;
                 };
                 break;
             case 'number':
                 check = true;
-
-                commit('Result', val);
+                commit('ClickVal', val);
                 break;
             case 'equals':
-                commit('Test');
-        }
+                commit('Result');
+                state.process  = '' + state.process + state.clickVal
+                state.clickVal = '' + state.resultVal
+                break;
+            case 'backspace':
+                state.clickVal = state.clickVal.slice(0, -1);
+                break;
+        };
     }
 };
 
 const mutations = {
     'Process': (state: stateType, payload: any) => {
-        state.process += state.result + payload;
+        state.process += state.clickVal + payload;
+    },
+    'ClickVal': (state: stateType, payload: any) => {
+        state.clickVal += payload;
     },
     'Result': (state: stateType, payload: any) => {
-        state.result += payload;
-    },
-    'Test': (state: stateType, payload: any) => {
-        state.testVal = eval(`${state.process} ${state.result}`);
-        state.process = '' + state.process + state.result
-        state.result = ''+state.testVal
+        state.resultVal = eval(`${state.process} ${state.clickVal}`);
     }
 };
 
 const getters = {
     processVal: (state: stateType) => state.process,
-    resultVal: (state: stateType) => state.result
+    resultVal: (state: stateType) => state.clickVal
 };
 
 export default {
