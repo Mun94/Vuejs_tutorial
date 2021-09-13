@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id = "app">
+            <my-awesome-list :items = "items">
+                <li 
+                    slot = "item"
+                    slot-scope = "qq"
+                >
+                    {{ qq.text }}
+                </li>
+            </my-awesome-list>
+        </div>
+
+        <script>
+            Vue.component('my-awesome-list', {
+                props: ['items'],
+                template: '\
+                    <ul>\
+                        <slot name = "item"\
+                            v-for = "item in items"\
+                            :text = "item.text"\
+                        >\
+                        </slot>\
+                    </ul>\
+                '
+            })
+
+            new Vue({
+                el: '#app',
+                data: {
+                    items : [{text: 'test'}, {text: 'test2'}]
+                }
+            })
+        </script>
+    </body>
+</html>

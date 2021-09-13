@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <div id = "app">
+            <example v-bind:prop-a = "testData"/>
+        </div>
+        <script>
+            Vue.component('example', {
+                props: {
+                    propA: {
+                        type: String,
+                        required: true,
+                        default: 're'
+                    }
+                },
+                template: '<div>{{propA}}</div>'
+            });
+
+            new Vue({
+                el: "#app",
+                data: {
+                    testData: 'test data'
+                }
+            })
+        </script>
+    </body>
+</html>
