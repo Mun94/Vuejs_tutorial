@@ -5,10 +5,10 @@
             <font-awesome-icon icon="user-secret" />
         </div>
          <div class = "process">
-            계산 과정
+            {{ processGet || '계산 과정'}}
         </div>
         <div class = "result">
-            계산 결과
+            {{ resultGet }}
         </div>
     </div>    
 </template>
@@ -16,7 +16,15 @@
 <script lang = 'ts'>
     export default {
         name: 'CalculatorScreen',
-        data() { return {}}
+        data() { return {}},
+        computed: {
+            processGet() {
+                return this.$store.getters.processVal
+            },
+            resultGet() {
+                return this.$store.getters.resultVal
+            }
+        }
     }
 </script>
 

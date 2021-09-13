@@ -1,12 +1,6 @@
 import { createStore } from 'vuex'
+import calculationVal from './modules/calculationVal';
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+export default createStore<any>({
+  ...calculationVal
 })

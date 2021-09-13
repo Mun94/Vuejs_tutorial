@@ -11,6 +11,7 @@ library.add(faUserSecret)
 const app  = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon);
 
+app.provide("$store", store);
 app.use(store)
 app.use(router)
 app.mount('#app')
