@@ -34,6 +34,13 @@ const actions = {
                 check = true;
                 commit('ClickVal', val);
                 break;
+            case 'plusMinus':
+                if(state.clickVal.includes('-')) {
+                    state.clickVal = state.clickVal.slice(1)
+                } else {
+                    state.clickVal = '-' + state.clickVal; 
+                }
+                break;
             case 'equals':
                 commit('Result');
                 state.process  = '' + state.process + state.clickVal

@@ -32,7 +32,7 @@
                 <td><Button @click = "clickEvent('+', 'operator')">+</Button></td>
             </tr>
             <tr>
-                <td><Button valType = "num">+/-</Button></td>
+                <td><Button valType = "num" @click = "clickEvent('', 'plusMinus')">+/-</Button></td>
                 <td><Button valType = "num" @click = "clickEvent('0', 'number')">0</Button></td>
                 <td><Button valType = "num" @click = "clickEvent('.', 'number')">.</Button></td>
                 <td><Button @click = "clickEvent('+', 'equals')">=</Button></td>
