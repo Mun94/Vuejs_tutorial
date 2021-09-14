@@ -1,20 +1,23 @@
+interface IState {
+    check: boolean;
+};
 
-const state: {check: boolean} = {
+const state: IState = {
     check: false
 };
 
 const mutations = {
-    'Change': (state: {check: boolean}, payload: boolean) => {
+    'CHANGE': (state: IState) => {
         state.check = !state.check;
     }
 };
 
 const getters = {
-    checkVal: (state: {check: boolean}) => state.check
+    checkVal: (state: IState) => state.check
 };
 
 export default {
     state,
     mutations,
     getters
-}
+};

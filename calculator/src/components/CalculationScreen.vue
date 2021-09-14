@@ -14,23 +14,41 @@
 </template>
 
 <script lang = 'ts'>
+    interface IMethods {
+        changeScreen: () => void;
+    };
+
+    interface IComputed {
+        processGet: () => void;
+        resultGet: () => void;
+    };
+
+    type TThis = IMethods & IComputed & { $store: any };
+
+    export interface ICalculationScreen {
+        name: string;
+        data?:() => void;
+        methods: IMethods,
+        computed: IComputed
+    };
+
     export default {
         name: 'CalculatorScreen',
         data() { return {}},
         methods: {
             changeScreen() {
-                this.$store.commit('Change')
+                (this as TThis).$store.commit('CHANGE')
             }
         },
         computed: {
             processGet() {
-                return this.$store.getters.processVal
+                return (this as TThis).$store.getters.processVal
             },
             resultGet() {
-                return this.$store.getters.resultVal
-            }
+                return (this as TThis).$store.getters.resultVal
+            },
         }
-    }
+    } as ICalculationScreen;
 </script>
 
 <style scoped>

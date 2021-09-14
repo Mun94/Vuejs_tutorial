@@ -8,19 +8,23 @@
 <script lang = "ts">
   import { defineComponent } from 'vue';
   import CalculatorPad from '../components/CalculatorPad.vue';
-  import CalculationScreen from '../components/CalculationScreen.vue';
+  import CalculationScreen, { ICalculationScreen } from '../components/CalculationScreen.vue';
   import RecordPad from '../components/RecordPad.vue';
+
+  type TThis = {
+    $store: any
+  };
 
   export default defineComponent({
     name: 'Home',
     computed: {
       changeComponent() {
-        return this.$store.getters.checkVal ?  RecordPad : CalculatorPad
+        return (this as unknown as TThis).$store.getters.checkVal ?  RecordPad : CalculatorPad
       }
     },
     components: {
       CalculationScreen,
-    },
+    } as {CalculationScreen: Pick<ICalculationScreen, 'name'>},
   });
 </script>
 

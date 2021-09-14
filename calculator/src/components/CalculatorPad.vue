@@ -14,27 +14,27 @@
                 <td><Button @click = "clickEvent('/', 'operator')">/</Button></td>
             </tr>
             <tr>
-                <td><Button valType = "num" @click = "clickEvent('7', 'number')">7</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('8', 'number')">8</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('9', 'number')">9</Button></td>
+                <td><Button @click = "clickEvent('7', 'number')" valType = "num">7</Button></td>
+                <td><Button @click = "clickEvent('8', 'number')" valType = "num">8</Button></td>
+                <td><Button @click = "clickEvent('9', 'number')" valType = "num">9</Button></td>
                 <td><Button @click = "clickEvent('*', 'operator')">*</Button></td>
             </tr>
             <tr>
-                <td><Button valType = "num" @click = "clickEvent('4', 'number')">4</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('5', 'number')">5</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('6', 'number')">6</Button></td>
+                <td><Button @click = "clickEvent('4', 'number')" valType = "num">4</Button></td>
+                <td><Button @click = "clickEvent('5', 'number')" valType = "num">5</Button></td>
+                <td><Button @click = "clickEvent('6', 'number')" valType = "num">6</Button></td>
                 <td><Button @click = "clickEvent('-', 'operator')">-</Button></td>
             </tr>
             <tr>
-                <td><Button valType = "num" @click = "clickEvent('1', 'number')">1</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('2', 'number')">2</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('3', 'number')">3</Button></td>
+                <td><Button @click = "clickEvent('1', 'number')" valType = "num">1</Button></td>
+                <td><Button @click = "clickEvent('2', 'number')" valType = "num">2</Button></td>
+                <td><Button @click = "clickEvent('3', 'number')" valType = "num">3</Button></td>
                 <td><Button @click = "clickEvent('+', 'operator')">+</Button></td>
             </tr>
             <tr>
-                <td><Button valType = "num" @click = "clickEvent('', 'plusMinus')">+/-</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('0', 'number')">0</Button></td>
-                <td><Button valType = "num" @click = "clickEvent('.', 'number')">.</Button></td>
+                <td><Button @click = "clickEvent('', 'plusMinus')" valType = "num">+/-</Button></td>
+                <td><Button @click = "clickEvent('0', 'number')"   valType = "num">0</Button></td>
+                <td><Button @click = "clickEvent('.', 'number')"   valType = "num">.</Button></td>
                 <td><Button @click = "clickEvent('+', 'equals')">=</Button></td>
             </tr>
         </table>
@@ -42,20 +42,35 @@
 </template>
 
 <script lang = "ts">
-    import Button from './common/Button.vue';
+    import Button, { IButton } from './common/Button.vue';
+ 
+    interface IMethods {
+        clickEvent: (val: string, symbol: string) => void;
+    };
+
+    type TThis = {
+        $store: any;
+    };
+
+    interface ICalculatorPad {
+        name: string;
+        data?: () => void;
+        methods: IMethods;
+        components: { Button: Pick<IButton, 'name'> } 
+    };
 
     export default {
-         name: 'CalculatorPad',
-        data() {
-            return {}
-        },
+        name: 'CalculatorPad',
+        data() { return {} },
         methods: {
-            clickEvent(val: string, symbol: string): void {
-                this.$store.dispatch('cal', {val, symbol})
+            clickEvent(val, symbol) {
+                return (this as unknown as TThis).$store.dispatch('cal', {val, symbol});
             },
         },
-        components: { Button }
-    }
+        components: { 
+            Button 
+        }
+    } as ICalculatorPad;
 </script>
 
 <style scoped>
@@ -74,6 +89,7 @@
     td{
         width: 100%;
     }
+
     tr{
         display: flex;
         flex-direction: row;

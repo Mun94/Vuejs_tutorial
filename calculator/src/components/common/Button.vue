@@ -5,20 +5,37 @@
 </template>
 
 <script lang = "ts">
+    interface IData {
+        backgroundColor: string;
+    };
+
+    interface IMethods {
+        color: () => string;
+    };
+
+    type TThis = IMethods & { $store: any, valType: string };
+
+    export interface IButton {
+        name: string;
+        props: string[];
+        data?: () => IData;
+        methods: IMethods;
+    };
+
     export default {
         name: 'Button',
         props: ['valType'],
         data() {
             return {
-                backgroundColor: this.color()
+                backgroundColor: (this as unknown as TThis).color()
             };
         },
         methods: {
-            color():string {
-                return this.valType === 'num' ? '#111111' : '#343434';
-            }
-        }
-    };
+          color() {
+            return (this as TThis).valType === 'num' ? '#111111' : '#343434';
+          }
+        } 
+    } as IButton;
 </script>
 
 <style scoped>
@@ -26,7 +43,6 @@
         width : 100%;
         height: 60px;
 
-        /* border: none; */
         background: v-bind('backgroundColor');
 
         color: #FFFFFF;
