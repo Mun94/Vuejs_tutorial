@@ -23,7 +23,7 @@
 
 <script lang = "ts">
     interface IData {
-        records: string[] | string ;
+        records: string[] | string;
     };
 
     interface IMethods {
@@ -35,7 +35,7 @@
         removeAllRecord:() => void;
     };
 
-    type TThis = IData & IMethods & IComputed & {$store: any};
+    type TThis = IData & IMethods & IComputed & { $store: any };
 
     interface IRecordPad {
         name: string,

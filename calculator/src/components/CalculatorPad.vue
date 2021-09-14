@@ -2,15 +2,15 @@
     <div class = "CalculatorPadWrap">
         <table class = "tableWrap">
             <tr>
-                <td><Button></Button></td>
+                <td><Button disabled></Button></td>
                 <td><Button>CE</Button></td>
                 <td><Button>C</Button></td>
                 <td><Button @click = "clickEvent('7', 'backspace')"><font-awesome-icon icon="user-secret" /></Button></td>
             </tr>
             <tr>
-                <td><Button></Button></td>
-                <td><Button></Button></td>
-                <td><Button></Button></td>
+                <td><Button disabled></Button></td>
+                <td><Button disabled></Button></td>
+                <td><Button disabled></Button></td>
                 <td><Button @click = "clickEvent('/', 'operator')">/</Button></td>
             </tr>
             <tr>
