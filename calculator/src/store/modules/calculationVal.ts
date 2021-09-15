@@ -1,34 +1,40 @@
-interface stateType {
+interface TState {
     clickVal : string;
     process  : string;
 
     resultVal: number;
 
     record   : string[];
+
+    clickStatus: {[key: string]: boolean}; 
 };
 
 interface IActions {
     cal: (
-        { commit, state }: { commit:(s:string, val?: number | string) => void, state: stateType }, 
+        { commit, state }: { commit:(s:string, val?: number | string) => void, state: TState }, 
         payload: { val: string, symbol: string }
     ) => void
 };
 
-const state: stateType = {
+const state: TState = {
     clickVal : '',
     process  : '',
 
     resultVal: 0,
 
-    record   : []
+    record   : [],
+
+    clickStatus: {
+        clickNum : false,
+        clickOpe : false,
+        clickEqual : false,
+        clickPlusMinus : false,
+        check : false,
+        check2 : false,
+    }
 };
 
-let clickNum: boolean = false;
-let clickOpe: boolean = false;
-let clickEqual: boolean = false;
-let clickPlusMinus: boolean = false;
-let check: boolean = false;
-let check2: boolean = false;
+let { clickNum, clickOpe, clickEqual, clickPlusMinus, check, check2 } = state.clickStatus;
 
 const actions : IActions = {
     cal: ({ commit, state }, payload) => {
@@ -61,7 +67,7 @@ const actions : IActions = {
                     } else {
                         commit('PROCESS', val);
                     };
-                    
+
                     state.clickVal = '';
                     clickNum = false;
                 };
@@ -123,13 +129,13 @@ const actions : IActions = {
 };
 
 const mutations = {
-    'PROCESS': (state: stateType, payload: number | string) => {
+    'PROCESS': (state: TState, payload: number | string) => {
         state.process += state.clickVal + payload;
     },
-    'CLICK_VAL': (state: stateType, payload: number | string) => {
+    'CLICK_VAL': (state: TState, payload: number | string) => {
         state.clickVal += payload;
     },
-    'RESULT': (state: stateType) => {
+    'RESULT': (state: TState) => {
         if(check){
             state.resultVal = eval(`${state.process}`);
             check = false;
@@ -137,22 +143,22 @@ const mutations = {
             state.resultVal = eval(`${state.process} ${state.clickVal}`);
         };
     },
-    'RECORD': (state: stateType) => {
+    'RECORD': (state: TState) => {
         if(check) {
             state.record = state.record.concat(state.process)
         } else {
             state.record = state.record.concat(state.process + state.clickVal)
         };
     },
-    'REMOVE_ALL_RECORD': (state: stateType) => {
+    'REMOVE_ALL_RECORD': (state: TState) => {
         state.record = [];
     }
 };
 
 const getters = {
-    processVal: (state: stateType) => state.process,
-    resultVal: (state: stateType) => state.clickVal,
-    recordVal: (state: stateType) => state.record
+    processVal: (state: TState) => state.process,
+    resultVal: (state: TState) => state.clickVal,
+    recordVal: (state: TState) => state.record
 };
 
 export default {
