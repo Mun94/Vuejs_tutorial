@@ -23,8 +23,11 @@ const state: stateType = {
     record   : []
 };
 
-let check: boolean = true;
-let check2: boolean = true;
+let clickNum: boolean = false;
+let clickOpe: boolean = false;
+let clickEqual: boolean = false;
+let clickPlusMinus: boolean = false;
+let check: boolean = false;
 
 const actions : IActions = {
     cal: ({ commit, state }, payload) => {
@@ -32,41 +35,69 @@ const actions : IActions = {
 
         switch(symbol) {
             case 'operator':          
-                if(check) {
+                if(clickNum) {
+                    clickOpe = true;
                     commit('PROCESS', val);
                     state.clickVal = '';
-                    if(state.resultVal) {
+                    if(state.resultVal && !clickPlusMinus) {
                         state.process = '' + state.resultVal;
                         commit('PROCESS', val);
                         state.resultVal = 0;
-                    }
-                    check = false;
+                    };
+
+                    if(state.resultVal && clickPlusMinus) {
+                        state.process = '-' + state.resultVal;
+                        commit('PROCESS', val);
+                        state.resultVal = 0;
+
+                        clickPlusMinus = false;
+                    };
+                    clickNum = false;
                 };
+                
                 break;
             case 'number':
-                check = true;
-                check2 = true;
-
+                clickNum = true;
                 commit('CLICK_VAL', val);
+
+                if(clickEqual) {
+                    state.clickVal = ''
+                    commit('CLICK_VAL', val);
+                    clickEqual = false;
+                };
                 break;
             case 'plusMinus':
                 if(state.clickVal.includes('-')) {
-                    state.clickVal = state.clickVal.slice(1)
+                    state.clickVal = state.clickVal.slice(1);
+                    state.resultVal = Math.abs(state.resultVal);
                 } else {
+                    clickPlusMinus = true;
                     state.clickVal = '-' + state.clickVal; 
                 };
                 break;
             case 'equals':
-                if(check2) {
+                if(clickNum && clickOpe) {
                     commit('RESULT');
                     commit('RECORD');
                     state.process  = '' + state.process + state.clickVal;
                     state.clickVal = '' + state.resultVal;
+                    clickEqual = true;
+                    clickOpe = false;
                 };
-                check2 = false;
+
+                if(clickNum && !clickEqual && !clickOpe) {
+                    check = true;
+                    state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
+                    commit('RECORD');
+                    commit('RESULT');
+                    state.clickVal = '' + state.resultVal;
+                    console.log(state.resultVal, state.clickVal);
+
+                    clickEqual = true;
+                };
                 break;
             case 'backspace':
-                if(check2) {
+                if(clickNum && !clickEqual) {
                     state.clickVal = state.clickVal.slice(0, -1);
                 };
                 break;
@@ -82,10 +113,19 @@ const mutations = {
         state.clickVal += payload;
     },
     'RESULT': (state: stateType) => {
-        state.resultVal = eval(`${state.process} ${state.clickVal}`);
+        if(check){
+            state.resultVal = eval(`${state.process}`);
+            check = false;
+        } else {
+            state.resultVal = eval(`${state.process} ${state.clickVal}`);
+        };
     },
     'RECORD': (state: stateType) => {
-        state.record = state.record.concat(state.process + state.clickVal) 
+        if(check) {
+            state.record = state.record.concat(state.process)
+        } else {
+            state.record = state.record.concat(state.process + state.clickVal)
+        };
     },
     'REMOVE_ALL_RECORD': (state: stateType) => {
         state.record = [];
