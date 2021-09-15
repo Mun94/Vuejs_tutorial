@@ -4,14 +4,14 @@ interface TState {
 
     resultVal: number;
 
-    record   : string[];
+    record   : any;
 
-    clickStatus: {[key: string]: boolean}; 
+    clickStatus: { [key: string]: boolean }; 
 };
 
 interface IActions {
     cal: (
-        { commit, state }: { commit:(s:string, val?: number | string) => void, state: TState }, 
+        { commit, state }: { commit: (s:string, val?: number | string) => void, state: TState }, 
         payload: { val: string, symbol: string }
     ) => void
 };
@@ -114,7 +114,6 @@ const actions : IActions = {
                     commit('RESULT');
                     commit('RECORD');
                     state.clickVal = '' + state.resultVal;
-                    console.log(state.resultVal, state.clickVal);
 
                     clickEqual = true;
                 };
@@ -145,9 +144,13 @@ const mutations = {
     },
     'RECORD': (state: TState) => {
         if(check) {
-            state.record = state.record.concat(state.process)
+            state.record = state.record.concat({process: state.process, result: state.clickVal});
         } else {
-            state.record = state.record.concat(state.process + state.clickVal)
+            if(!clickOpe){
+                state.record = state.record.concat({process: state.process, result: state.resultVal});
+            } else {
+                state.record = state.record.concat({process:state.process + state.clickVal, result: state.resultVal});
+            };
         };
     },
     'REMOVE_ALL_RECORD': (state: TState) => {

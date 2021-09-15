@@ -53,7 +53,8 @@
 
 <style scoped>
     .screenWrap {
-        width: 100%;
+        padding: 10px;
+
         height: 200px;
         background: #565656;
     }

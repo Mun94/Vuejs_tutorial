@@ -3,11 +3,11 @@
         <div>
             <div v-if = "records.length > 0" class = "existRecords">
                 <div v-for = "record in records" :key = "record">
-                    <div>
-                        {{ record }}
+                    <div class = "process">
+                        {{ record.process.replaceAll(' ', '') }} =
                     </div>
-                    <div>
-                        {{ sum(record) }}
+                    <div class = "result">
+                        {{ record.result }}
                     </div>  
                 </div>
             </div>
@@ -27,7 +27,6 @@
     };
 
     interface IMethods {
-        sum: ( re:string ) => number;
         getRecordVal: () => string[] | string;
     };
 
@@ -51,9 +50,6 @@
                 records: (this as unknown as TThis).getRecordVal(),
         }},
         methods: {
-            sum(re) {
-                return parseInt(re) ? eval(re) : ''
-            },
             getRecordVal() {
                 const { recordVal } = (this as TThis).$store.getters;
                 return recordVal.length > 0 ? recordVal : '';
@@ -70,26 +66,39 @@
 
 <style scoped>
     .recordPadWrap {
-        width:100%;
-        
+        padding: 10px;
 
         color: #FFFFFF;
         background: #272727;
     }
 
     .noneRecords {
-        height: 335px;
+        height: 330px;
 
         text-align: left;
     }
 
     .existRecords {
-        height: 335px;
+        height: 330px;
 
         text-align: right;
     }
 
+    .process {
+        letter-spacing: 5px;
+    }
+
+    .result {
+        margin-top: 5px;
+        font-size: 25px;
+    }
+
     .remove {
         text-align: right;
+    }
+
+    .remove svg {
+        width: 20px;
+        height: 25px;
     }
 </style>
