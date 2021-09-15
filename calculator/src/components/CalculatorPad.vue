@@ -3,9 +3,9 @@
         <table class = "tableWrap">
             <tr>
                 <td><Button disabled></Button></td>
-                <td><Button>CE</Button></td>
-                <td><Button>C</Button></td>
-                <td><Button @click = "clickEvent('7', 'backspace')"><font-awesome-icon icon = "backspace" class="icon alt"/></Button></td>
+                <td><Button @click = "clickEvent('', 'clearEntry')">CE</Button></td>
+                <td><Button @click = "clickEvent('', 'clear')">C</Button></td>
+                <td><Button @click = "clickEvent('', 'backspace')"><font-awesome-icon icon = "backspace" class="icon alt"/></Button></td>
             </tr>
             <tr>
                 <td><Button disabled></Button></td>
@@ -34,8 +34,8 @@
             <tr>
                 <td><Button @click = "clickEvent('', 'plusMinus')" valType = "num">+/-</Button></td>
                 <td><Button @click = "clickEvent('0', 'number')"   valType = "num">0</Button></td>
-                <td><Button @click = "clickEvent('.', 'number')"   valType = "num">.</Button></td>
-                <td><Button @click = "clickEvent('+', 'equals')">=</Button></td>
+                <td><Button @click = "clickEvent('', 'number')"   valType = "num">.</Button></td>
+                <td><Button @click = "clickEvent('', 'equals')">=</Button></td>
             </tr>
         </table>
     </div>
@@ -86,11 +86,12 @@
         border-spacing: 0;
     }
 
-    td{
+    td {
         width: 100%;
+        height: 60px;
     }
 
-    tr{
+    tr {
         display: flex;
         flex-direction: row;
         flex: 1;

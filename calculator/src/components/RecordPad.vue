@@ -73,18 +73,22 @@
     }
 
     .noneRecords {
-        height: 330px;
+        height: 320px;
 
         text-align: left;
     }
 
     .existRecords {
-        height: 330px;
+        height: 320px;
+
+        overflow: auto;
 
         text-align: right;
     }
 
     .process {
+        margin-top: 5px;
+
         letter-spacing: 5px;
     }
 
@@ -94,6 +98,7 @@
     }
 
     .remove {
+        margin-top: 5px;
         text-align: right;
     }
 

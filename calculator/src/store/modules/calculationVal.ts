@@ -4,7 +4,7 @@ interface TState {
 
     resultVal: number;
 
-    record   : any;
+    record   : { process: string, result: number | string }[];
 
     clickStatus: { [key: string]: boolean }; 
 };
@@ -123,6 +123,12 @@ const actions : IActions = {
                     state.clickVal = state.clickVal.slice(0, -1);
                 };
                 break;
+            case 'clear':
+                commit('CLEAR');
+                break;
+            case 'clearEntry':
+                commit('CLEAR_ENTRY');
+                break;
         };
     },
 };
@@ -134,7 +140,7 @@ const mutations = {
     'CLICK_VAL': (state: TState, payload: number | string) => {
         state.clickVal += payload;
     },
-    'RESULT': (state: TState) => {
+    'RESULT': (state: TState, payload: number) => {
         if(check){
             state.resultVal = eval(`${state.process}`);
             check = false;
@@ -146,16 +152,24 @@ const mutations = {
         if(check) {
             state.record = state.record.concat({process: state.process, result: state.clickVal});
         } else {
-            if(!clickOpe){
+            if(!clickOpe) {
                 state.record = state.record.concat({process: state.process, result: state.resultVal});
             } else {
                 state.record = state.record.concat({process:state.process + state.clickVal, result: state.resultVal});
             };
         };
     },
+    'CLEAR': (state: TState) => {
+        state.clickVal = '';
+        state.process = '';
+        state.resultVal = 0;
+    },
+    'CLEAR_ENTRY': () => {
+        console.log(1)
+    },
     'REMOVE_ALL_RECORD': (state: TState) => {
         state.record = [];
-    }
+    },
 };
 
 const getters = {

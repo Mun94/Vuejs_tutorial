@@ -71,6 +71,10 @@
         color: #FFFFFF;
     }
 
+    .process {
+        letter-spacing: 5px;
+    }
+
     .recordIcon {
         font-size: 25px;
 
