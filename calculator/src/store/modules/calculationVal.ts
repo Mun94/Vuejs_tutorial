@@ -28,6 +28,7 @@ let clickOpe: boolean = false;
 let clickEqual: boolean = false;
 let clickPlusMinus: boolean = false;
 let check: boolean = false;
+let check2: boolean = false;
 
 const actions : IActions = {
     cal: ({ commit, state }, payload) => {
@@ -37,21 +38,31 @@ const actions : IActions = {
             case 'operator':          
                 if(clickNum) {
                     clickOpe = true;
-                    commit('PROCESS', val);
-                    state.clickVal = '';
+
                     if(state.resultVal && !clickPlusMinus) {
-                        state.process = '' + state.resultVal;
+                        if(check2) {
+                            state.resultVal = 0;
+                            state.process = ''
+                            check2 = false;
+                        } else {
+                            state.resultVal = 0;
+                            state.process = '' ;
+                        };
+
                         commit('PROCESS', val);
                         state.resultVal = 0;
-                    };
-
-                    if(state.resultVal && clickPlusMinus) {
-                        state.process = '-' + state.resultVal;
+                    } else if(state.resultVal && clickPlusMinus) {
+                        state.process = '' ;
                         commit('PROCESS', val);
+
                         state.resultVal = 0;
 
                         clickPlusMinus = false;
+                    } else {
+                        commit('PROCESS', val);
                     };
+                    
+                    state.clickVal = '';
                     clickNum = false;
                 };
                 
@@ -61,7 +72,12 @@ const actions : IActions = {
                 commit('CLICK_VAL', val);
 
                 if(clickEqual) {
-                    state.clickVal = ''
+                    state.clickVal = '';
+                    if(!clickOpe) {
+                        state.process = '';
+
+                        check2 = true;
+                    };
                     commit('CLICK_VAL', val);
                     clickEqual = false;
                 };
@@ -70,6 +86,7 @@ const actions : IActions = {
                 if(state.clickVal.includes('-')) {
                     state.clickVal = state.clickVal.slice(1);
                     state.resultVal = Math.abs(state.resultVal);
+                    clickPlusMinus = false;
                 } else {
                     clickPlusMinus = true;
                     state.clickVal = '-' + state.clickVal; 
@@ -88,8 +105,8 @@ const actions : IActions = {
                 if(clickNum && !clickEqual && !clickOpe) {
                     check = true;
                     state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
-                    commit('RECORD');
                     commit('RESULT');
+                    commit('RECORD');
                     state.clickVal = '' + state.resultVal;
                     console.log(state.resultVal, state.clickVal);
 
