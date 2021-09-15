@@ -34,7 +34,7 @@
             <tr>
                 <td><Button @click = "clickEvent('', 'plusMinus')" valType = "num">+/-</Button></td>
                 <td><Button @click = "clickEvent('0', 'number')"   valType = "num">0</Button></td>
-                <td><Button @click = "clickEvent('', 'number')"   valType = "num">.</Button></td>
+                <td><Button @click = "clickEvent('.', 'number')"   valType = "num">.</Button></td>
                 <td><Button @click = "clickEvent('', 'equals')">=</Button></td>
             </tr>
         </table>

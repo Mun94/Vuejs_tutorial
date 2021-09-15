@@ -52,7 +52,8 @@
         methods: {
             getRecordVal() {
                 const { recordVal } = (this as TThis).$store.getters;
-                return recordVal.length > 0 ? recordVal : '';
+
+                return recordVal.length > 0 ? recordVal.reverse() : '';
             },
         },
         computed: {
@@ -103,6 +104,8 @@
     }
 
     .remove svg {
+        cursor: pointer;
+        
         width: 20px;
         height: 25px;
     }

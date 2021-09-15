@@ -29,64 +29,73 @@ const state: TState = {
         clickOpe : false,
         clickEqual : false,
         clickPlusMinus : false,
+        clickClearEntry: false,
         check : false,
         check2 : false,
     }
 };
 
-let { clickNum, clickOpe, clickEqual, clickPlusMinus, check, check2 } = state.clickStatus;
+let { clickNum, clickOpe, clickEqual, clickPlusMinus, clickClearEntry, check, check2 } = state.clickStatus;
 
 const actions : IActions = {
     cal: ({ commit, state }, payload) => {
         const { val, symbol } = payload;
 
         switch(symbol) {
-            case 'operator':          
+            case 'operator': 
+            
                 if(clickNum) {
                     clickOpe = true;
+                    if(clickClearEntry) {
+                        commit('CLEAR');
+        
+                        state.process = '0';
+                        commit('PROCESS', val);
+                    } else {
+                        if(state.resultVal && !clickPlusMinus) {
+                            if(check2) {
+                                state.resultVal = 0;
+                                state.process = ''
+                                check2 = false;
+                            } else {
+                                state.resultVal = 0;
+                                state.process = '' ;
+                            };
 
-                    if(state.resultVal && !clickPlusMinus) {
-                        if(check2) {
+                            commit('PROCESS', val);
                             state.resultVal = 0;
-                            state.process = ''
-                            check2 = false;
-                        } else {
-                            state.resultVal = 0;
+                        } else if(state.resultVal && clickPlusMinus) {
                             state.process = '' ;
+                            commit('PROCESS', val);
+
+                            state.resultVal = 0;
+
+                            clickPlusMinus = false;
+                        } else {
+                            commit('PROCESS', val);
                         };
 
-                        commit('PROCESS', val);
-                        state.resultVal = 0;
-                    } else if(state.resultVal && clickPlusMinus) {
-                        state.process = '' ;
-                        commit('PROCESS', val);
-
-                        state.resultVal = 0;
-
-                        clickPlusMinus = false;
-                    } else {
-                        commit('PROCESS', val);
-                    };
-
-                    state.clickVal = '';
-                    clickNum = false;
+                        state.clickVal = '';
+                        clickNum = false;
                 };
-                
+            };
+            
                 break;
             case 'number':
                 clickNum = true;
+
                 commit('CLICK_VAL', val);
 
                 if(clickEqual) {
                     state.clickVal = '';
                     if(!clickOpe) {
-                        state.process = '';
-
                         check2 = true;
                     };
                     commit('CLICK_VAL', val);
+
                     clickEqual = false;
                 };
+                clickClearEntry = false;
                 break;
             case 'plusMinus':
                 if(state.clickVal.includes('-')) {
@@ -99,23 +108,37 @@ const actions : IActions = {
                 };
                 break;
             case 'equals':
-                if(clickNum && clickOpe) {
+                if(clickClearEntry) {
+                    clickClearEntry = false;
+
                     commit('RESULT');
                     commit('RECORD');
                     state.process  = '' + state.process + state.clickVal;
                     state.clickVal = '' + state.resultVal;
                     clickEqual = true;
                     clickOpe = false;
-                };
+                } else {
+                    if(clickNum && clickOpe) {
+                        commit('RESULT');
+                        commit('RECORD');
 
-                if(clickNum && !clickEqual && !clickOpe) {
-                    check = true;
-                    state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
-                    commit('RESULT');
-                    commit('RECORD');
-                    state.clickVal = '' + state.resultVal;
+                        state.process  = '' + state.process + state.clickVal;
+                        state.clickVal = '' + state.resultVal;
+                        clickEqual = true;
+                        clickOpe = false;
+                    };
 
-                    clickEqual = true;
+                    if(clickNum && !clickEqual && !clickOpe) {
+   
+                        check = true;
+                        state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
+    
+                        commit('RESULT');
+                        commit('RECORD');
+                        state.clickVal = '' + state.resultVal;
+
+                        clickEqual = true;
+                    };
                 };
                 break;
             case 'backspace':
@@ -127,6 +150,7 @@ const actions : IActions = {
                 commit('CLEAR');
                 break;
             case 'clearEntry':
+                clickClearEntry = true;
                 commit('CLEAR_ENTRY');
                 break;
         };
@@ -164,8 +188,12 @@ const mutations = {
         state.process = '';
         state.resultVal = 0;
     },
-    'CLEAR_ENTRY': () => {
-        console.log(1)
+    'CLEAR_ENTRY': (state: TState) => {
+        console.log(state.process);
+        if(clickOpe) {
+            console.log('0 부터 시작')
+        }
+        console.log(state.process.split('').slice(1).join(''))
     },
     'REMOVE_ALL_RECORD': (state: TState) => {
         state.record = [];
