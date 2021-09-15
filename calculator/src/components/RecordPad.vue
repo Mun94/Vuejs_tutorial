@@ -16,7 +16,7 @@
             </div>
         </div>  
         <div class = "remove" @click = "removeAllRecord">
-            지우기
+            <font-awesome-icon icon = "trash" class="icon alt"/>
         </div>
     </div>
 </template>

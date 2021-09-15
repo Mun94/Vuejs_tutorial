@@ -5,7 +5,7 @@
                 <td><Button disabled></Button></td>
                 <td><Button>CE</Button></td>
                 <td><Button>C</Button></td>
-                <td><Button @click = "clickEvent('7', 'backspace')"><font-awesome-icon icon="user-secret" /></Button></td>
+                <td><Button @click = "clickEvent('7', 'backspace')"><font-awesome-icon icon = "backspace" class="icon alt"/></Button></td>
             </tr>
             <tr>
                 <td><Button disabled></Button></td>
@@ -56,7 +56,7 @@
         name: string;
         data?: () => void;
         methods: IMethods;
-        components: { Button: Pick<IButton, 'name'> } 
+        components: { Button: Pick<IButton, 'name'> };
     };
 
     export default {
