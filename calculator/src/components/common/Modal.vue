@@ -22,7 +22,7 @@
         name: 'Modal',
         props: ['modalOpen'],
         data() {return {}; }
-    } as IModal;
+    }
 </script>
 
 <style scoped>
