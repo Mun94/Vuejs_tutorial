@@ -23,7 +23,9 @@
         resultGet: () => void;
     };
 
-    type TThis = IMethods & IComputed & { $store: any };
+    interface IThis extends IMethods, IComputed {
+        $store: any
+    };
 
     export interface ICalculationScreen {
         name    : string;
@@ -37,15 +39,15 @@
         data() { return {}},
         methods: {
             changeScreen() {
-                (this as TThis).$store.commit('CHANGE');
+                (this as IThis).$store.commit('CHANGE');
             }
         },
         computed: {
             processGet() {
-                return (this as TThis).$store.getters.processVal;
+                return (this as IThis).$store.getters.processVal;
             },
             resultGet() {
-                return (this as TThis).$store.getters.resultVal;
+                return (this as IThis).$store.getters.resultVal;
             },
         }
     } as ICalculationScreen;

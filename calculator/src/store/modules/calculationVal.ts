@@ -140,14 +140,11 @@ const actions : IActions = {
                 
                 if(clickClearEntry) {
                     if(clickCEAfterClickOpe) {
-                        console.log(1)
                         commit('RESULT');
                         commit('RECORD');
                         state.process  = '' + state.process + state.clickVal;
                         state.clickVal = '' + state.resultVal;
                     } else {
-                        console.log(2)
-
                         commit('RESULT');
                         if(!Number(state.process.slice(-1))) {
                             state.process  = '' + state.process + state.clickVal;
@@ -164,8 +161,6 @@ const actions : IActions = {
                     clickOpe = false;
                 } else {
                     if(clickNum && clickOpe) {
-                        console.log(3)
-
                         commit('RESULT');
                         commit('RECORD');
                         state.process  = '' + state.process + state.clickVal;
@@ -175,8 +170,6 @@ const actions : IActions = {
                     };
 
                     if(clickNum && !clickEnter && !clickOpe) {
-                        console.log(4)
-
                         clickOnlyNum = true;
                         state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
     
@@ -222,8 +215,6 @@ const mutations = {
 
                 state.resultVal = eval(`${state.process} ${state.clickVal}`);
             } else {
-                console.log(state.clickVal);
-                console.log(state.process)
                 if(!Number(state.process.slice(-1))){
                     state.resultVal = eval(state.process + state.clickVal);
                 } else {

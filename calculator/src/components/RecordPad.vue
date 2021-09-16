@@ -34,7 +34,9 @@
         removeAllRecord:() => void;
     };
 
-    type TThis = IData & IMethods & IComputed & { $store: any };
+    interface IThis extends IData, IMethods, IComputed {
+        $store: any;
+    };
 
     interface IRecordPad {
         name    : string,
@@ -47,19 +49,19 @@
         name: 'RecordPad',
         data() { 
             return {
-                records: (this as unknown as TThis).getRecordVal(),
+                records: (this as unknown as IThis).getRecordVal(),
         }},
         methods: {
             getRecordVal() {
-                const { recordVal } = (this as TThis).$store.getters;
+                const { recordVal } = (this as IThis).$store.getters;
 
                 return recordVal.length > 0 ? recordVal.reverse() : '';
             },
         },
         computed: {
             removeAllRecord() {
-                (this as TThis).records = '';
-                (this as TThis).$store.commit('REMOVE_ALL_RECORD');
+                (this as IThis).records = '';
+                (this as IThis).$store.commit('REMOVE_ALL_RECORD');
             }
         }
     } as IRecordPad;

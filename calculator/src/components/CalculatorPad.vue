@@ -48,7 +48,7 @@
         clickEvent: (val: string, controller: string) => void;
     };
 
-    type TThis = {
+    interface IThis {
         $store: any;
     };
 
@@ -64,7 +64,7 @@
         data() { return {} },
         methods: {
             clickEvent(val, controller) {
-                return (this as unknown as TThis).$store.dispatch('cal', {val, controller});
+                return (this as unknown as IThis).$store.dispatch('cal', {val, controller});
             },
         },
         components: { 

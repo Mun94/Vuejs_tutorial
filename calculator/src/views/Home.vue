@@ -11,7 +11,7 @@
   import CalculationScreen, { ICalculationScreen } from '../components/CalculationScreen.vue';
   import RecordPad from '../components/RecordPad.vue';
 
-  type TThis = {
+  interface IThis {
     $store: any
   };
 
@@ -19,7 +19,7 @@
     name: 'Home',
     computed: {
       changeComponent() {
-        return (this as unknown as TThis).$store.getters.checkVal ?  RecordPad : CalculatorPad
+        return (this as unknown as IThis).$store.getters.checkVal ?  RecordPad : CalculatorPad
       }
     },
     components: {
