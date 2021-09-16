@@ -272,7 +272,7 @@ const mutations = {
             });
 
             return state.process = arr.reduce((be:any, cur, i) => {
-                return cur.filterVal || arr[i-1].filterVal ?
+                return cur.filterVal || (arr[i-1].filterVal || arr[i-1].val === '.')?
                      be.concat(cur.val) : be.concat('')
             }, []).reverse().join('');
         } else {
