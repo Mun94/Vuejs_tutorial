@@ -11,8 +11,10 @@ interface TState {
 
 interface IActions {
     cal: (
-        { commit, state }: { commit: (key: string, val?: number | string) => void, state: TState }, 
-        payload: { val: string, symbol: string }
+        { commit, state }: 
+            { commit: (key: string, val?: number | string) => void, state: TState }, 
+        payload: 
+            { val: string, controller: string }
     ) => void
 };
 
@@ -32,24 +34,23 @@ const state: TState = {
         clickClearEntry: false,
         clickCEAfterClickOpe: false,
         clickOnlyNum : false,
-        clickDot: false,
 
         checkInfinityAndNaN: false
     }
 };
 
-let { clickNum, clickOpe, clickEqual, clickPlusMinus, clickClearEntry, clickCEAfterClickOpe, clickOnlyNum, clickDot, checkInfinityAndNaN } = state.clickStatus;
+let { clickNum, clickOpe, clickEqual, clickPlusMinus, clickClearEntry, clickCEAfterClickOpe, clickOnlyNum, checkInfinityAndNaN } = state.clickStatus;
 
 const actions : IActions = {
     cal: ({ commit, state }, payload) => {
-        const { val, symbol } = payload;
+        const { val, controller } = payload;
 
-        switch(symbol) {
+        switch(controller) {
             case 'operator': 
                 if(clickNum) {
                     if(clickClearEntry) {
                         state.resultVal = 0;
-                        state.process = ''
+                        state.process = '';
                         clickClearEntry = false;
                         commit('PROCESS', val);
                         state.clickVal = '';
@@ -71,7 +72,8 @@ const actions : IActions = {
                             if(checkInfinityAndNaN) {
                                 state.process = ''
                                 checkInfinityAndNaN = false;
-                            }
+                            };
+
                             commit('PROCESS', val);
                         };
 
@@ -84,11 +86,15 @@ const actions : IActions = {
             
                 break;
             case 'number':
+                if(val === '.' && (state.clickVal.includes('.') && !clickEqual)) {
+                    return;
+                };
+
                 clickNum = true;
                 
                 if(state.clickVal.slice(0, 1) === '0') {
-                    state.clickVal = ''
-                }
+                    state.clickVal = '';
+                };
 
                 if(clickEqual) {
                     state.clickVal = '';
@@ -105,7 +111,8 @@ const actions : IActions = {
                 if(checkInfinityAndNaN) {
                     state.process = ''
                     checkInfinityAndNaN = false;
-                }
+                };
+
                 commit('CLICK_VAL', val);
                 break;
             case 'plusMinus':
@@ -114,8 +121,8 @@ const actions : IActions = {
                     state.resultVal = Math.abs(state.resultVal);
                     clickPlusMinus = false;
                 } else {
-                    clickPlusMinus = true;
                     state.clickVal = '-' + state.clickVal; 
+                    clickPlusMinus = true;
                 };
                 break;
             case 'enter':

@@ -27,7 +27,7 @@
 
     export interface ICalculationScreen {
         name    : string;
-        data?   :() => void;
+        data?   : () => void;
         methods : IMethods;
         computed: IComputed;
     };

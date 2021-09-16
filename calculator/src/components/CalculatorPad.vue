@@ -45,7 +45,7 @@
     import Button, { IButton } from './common/Button.vue';
  
     interface IMethods {
-        clickEvent: (val: string, symbol: string) => void;
+        clickEvent: (val: string, controller: string) => void;
     };
 
     type TThis = {
@@ -63,8 +63,8 @@
         name: 'CalculatorPad',
         data() { return {} },
         methods: {
-            clickEvent(val, symbol) {
-                return (this as unknown as TThis).$store.dispatch('cal', {val, symbol});
+            clickEvent(val, controller) {
+                return (this as unknown as TThis).$store.dispatch('cal', {val, controller});
             },
         },
         components: { 

@@ -14,7 +14,7 @@
   type TThis = {
     $store: any
   };
-  
+
   export default defineComponent({
     name: 'Home',
     computed: {
@@ -30,7 +30,7 @@
 
 <style scoped>
   .block {
-    background: #000000;
+    background: #565656;
     width: 400px;
   }
 </style>>

@@ -43,6 +43,7 @@
         width : 100%;
         height: 60px;
 
+        border: none;
         background: v-bind('backgroundColor');
 
         color: #FFFFFF;
