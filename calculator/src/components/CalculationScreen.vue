@@ -2,7 +2,7 @@
     <div class = 'screenWrap'>
         <div class = "title">계산기</div>
         <div class = "recordIcon">
-            <font-awesome-icon icon="clock" class="icon alt" @click = "changeScreen"/>
+            <font-awesome-icon icon = "clock" class = "icon alt" @click = "changeScreen"/>
         </div>
          <div class = "process">
             {{ processGet || '계산 과정'}}

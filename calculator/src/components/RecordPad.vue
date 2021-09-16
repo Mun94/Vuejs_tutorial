@@ -16,14 +16,14 @@
             </div>
         </div>  
         <div class = "remove" @click = "removeAllRecord">
-            <font-awesome-icon icon = "trash" class="icon alt"/>
+            <font-awesome-icon icon = "trash" class = "icon alt"/>
         </div>
         <Modal :modalOpen = "modalOpen"></Modal>
     </div>
 </template>
 
 <script lang = 'ts'>
-    import Modal from './common/Modal.vue';
+    import Modal, { IModal } from './common/Modal.vue';
 
     interface IData {
         modalOpen: boolean;
@@ -47,6 +47,7 @@
         data    :() => IData,
         methods : IMethods,
         computed: IComputed
+        components: { Modal: IModal }
     };
 
     export default {

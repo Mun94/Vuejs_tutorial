@@ -1,6 +1,6 @@
 <template>
     <teleport to = "body">
-      <div v-if = "modalOpen" class="modal">
+      <div v-if = "modalOpen" class = "modal">
         <div>
           삭제 되었습니다.
           <button @click="modalOpen = false">
@@ -12,7 +12,7 @@
 </template>
 
 <script lang = 'ts'>
-    interface IModal {
+    export interface IModal {
         name : string;
         props: string[];
         data : () => void;
