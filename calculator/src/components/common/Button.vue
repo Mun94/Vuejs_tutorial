@@ -13,7 +13,7 @@
         color: () => string;
     };
 
-    type TThis = IMethods & { $store: any, valType: string };
+    type TThis = IMethods & { $store: any, buttonType: string };
 
     export interface IButton {
         name: string;
@@ -24,7 +24,7 @@
 
     export default {
         name: 'Button',
-        props: ['valType'],
+        props: ['buttonType'],
         data() {
             return {
                 backgroundColor: (this as unknown as TThis).color()
@@ -32,7 +32,7 @@
         },
         methods: {
           color() {
-            return (this as TThis).valType === 'num' ? '#111111' : '#343434';
+            return (this as TThis).buttonType === 'num' ? '#111111' : '#343434';
           }
         } 
     } as IButton;

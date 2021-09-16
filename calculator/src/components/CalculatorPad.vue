@@ -14,27 +14,27 @@
                 <td><Button @click = "clickEvent('/', 'operator')">/</Button></td>
             </tr>
             <tr>
-                <td><Button @click = "clickEvent('7', 'number')" valType = "num">7</Button></td>
-                <td><Button @click = "clickEvent('8', 'number')" valType = "num">8</Button></td>
-                <td><Button @click = "clickEvent('9', 'number')" valType = "num">9</Button></td>
+                <td><Button @click = "clickEvent('7', 'number')" buttonType = "num">7</Button></td>
+                <td><Button @click = "clickEvent('8', 'number')" buttonType = "num">8</Button></td>
+                <td><Button @click = "clickEvent('9', 'number')" buttonType = "num">9</Button></td>
                 <td><Button @click = "clickEvent('*', 'operator')">*</Button></td>
             </tr>
             <tr>
-                <td><Button @click = "clickEvent('4', 'number')" valType = "num">4</Button></td>
-                <td><Button @click = "clickEvent('5', 'number')" valType = "num">5</Button></td>
-                <td><Button @click = "clickEvent('6', 'number')" valType = "num">6</Button></td>
+                <td><Button @click = "clickEvent('4', 'number')" buttonType = "num">4</Button></td>
+                <td><Button @click = "clickEvent('5', 'number')" buttonType = "num">5</Button></td>
+                <td><Button @click = "clickEvent('6', 'number')" buttonType = "num">6</Button></td>
                 <td><Button @click = "clickEvent('-', 'operator')">-</Button></td>
             </tr>
             <tr>
-                <td><Button @click = "clickEvent('1', 'number')" valType = "num">1</Button></td>
-                <td><Button @click = "clickEvent('2', 'number')" valType = "num">2</Button></td>
-                <td><Button @click = "clickEvent('3', 'number')" valType = "num">3</Button></td>
+                <td><Button @click = "clickEvent('1', 'number')" buttonType = "num">1</Button></td>
+                <td><Button @click = "clickEvent('2', 'number')" buttonType = "num">2</Button></td>
+                <td><Button @click = "clickEvent('3', 'number')" buttonType = "num">3</Button></td>
                 <td><Button @click = "clickEvent('+', 'operator')">+</Button></td>
             </tr>
             <tr>
-                <td><Button @click = "clickEvent('', 'plusMinus')" valType = "num">+/-</Button></td>
-                <td><Button @click = "clickEvent('0', 'number')"   valType = "num">0</Button></td>
-                <td><Button @click = "clickEvent('.', 'number')"   valType = "num">.</Button></td>
+                <td><Button @click = "clickEvent('', 'plusMinus')" buttonType = "num">+/-</Button></td>
+                <td><Button @click = "clickEvent('0', 'number')"   buttonType = "num">0</Button></td>
+                <td><Button @click = "clickEvent('.', 'number')"   buttonType = "num">.</Button></td>
                 <td><Button @click = "clickEvent('', 'enter')">=</Button></td>
             </tr>
         </table>
@@ -82,6 +82,7 @@
     .tableWrap {
         width: 100%;
         height: 100%;
+
         border-collapse: collapse; 
         border-spacing: 0;
     }
@@ -95,8 +96,9 @@
         display: flex;
         flex-direction: row;
         flex: 1;
-        width: 100%;
         justify-content: center;
         align-items: center;
+        
+        width: 100%;
     }
 </style>

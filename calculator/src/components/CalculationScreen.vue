@@ -54,8 +54,8 @@
 <style scoped>
     .screenWrap {
         padding: 10px;
-
         height: 200px;
+
         background: #565656;
     }
 
@@ -63,6 +63,15 @@
         text-align: left;
 
         color: #FFFFFF;
+    }
+
+    .result {
+        max-height: 110px;
+        word-break: break-word;
+
+        font-size: 40px;
+
+        overflow: auto;
     }
 
     .recordIcon, .result, .process {
@@ -83,13 +92,5 @@
 
     .result, .process {
         margin-top: 15px;
-    }
-
-    .result {
-        word-break: break-word;
-        overflow: auto;
-        max-height: 110px;
-
-        font-size: 40px;
     }
 </style>

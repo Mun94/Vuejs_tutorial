@@ -69,8 +69,8 @@
     .recordPadWrap {
         padding: 10px;
 
-        color: #FFFFFF;
         background: #272727;
+        color: #FFFFFF;
     }
 
     .noneRecords {
@@ -91,24 +91,25 @@
         margin-top: 5px;
 
         word-break: break-word;
-
         letter-spacing: 5px;
     }
 
     .result {
         margin-top: 5px;
+
         font-size: 25px;
     }
 
     .remove {
         margin-top: 5px;
+
         text-align: right;
     }
 
     .remove svg {
-        cursor: pointer;
-        
         width: 20px;
         height: 25px;
+
+        cursor: pointer;
     }
 </style>
