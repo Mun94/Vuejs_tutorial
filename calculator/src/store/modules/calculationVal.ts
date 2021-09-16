@@ -48,7 +48,7 @@ const actions : IActions = {
 
         switch(controller) {
             case 'operator': 
-                if(state.clickVal.split('').pop() === '.') {
+                if(state.clickVal.slice(-1) === '.') {
                     return;
                 };
 
@@ -61,8 +61,6 @@ const actions : IActions = {
                         state.clickVal = '';
                     } else {
                         if(state.resultVal && !clickPlusMinus) {
-                            console.log(111111)
-                            // state.resultVal = 0;
                             state.process = '' ;
               
                             commit('PROCESS', val);
@@ -70,14 +68,13 @@ const actions : IActions = {
                         } else if(state.resultVal && clickPlusMinus) {
                             state.process = '' ;
                             commit('PROCESS', val);
-                            console.log(2222222)
                             state.resultVal = 0;
 
                             clickPlusMinus = false;
                         } else {
-                            if(!eval(state.process+0)) {
+                            if(state.process.includes('0*') || state.process.includes('0/')) {
                                 state.process = ''
-                                // state.clickVal = '0'
+                                state.clickVal = '0'
                             }
                       
                             if(checkInfinityAndNaN) {
@@ -143,14 +140,22 @@ const actions : IActions = {
                 
                 if(clickClearEntry) {
                     if(clickCEAfterClickOpe) {
+                        console.log(1)
                         commit('RESULT');
                         commit('RECORD');
                         state.process  = '' + state.process + state.clickVal;
                         state.clickVal = '' + state.resultVal;
                     } else {
+                        console.log(2)
+
                         commit('RESULT');
-                        state.process  = '' + state.clickVal + state.process ;
-                        commit('RECORD');
+                        if(!Number(state.process.slice(-1))) {
+                            state.process  = '' + state.process + state.clickVal;
+                             commit('RECORD', 'true');
+                        } else {
+                            state.process  = '' + state.clickVal + state.process;
+                            commit('RECORD');
+                        };
                         state.clickVal = '' + state.resultVal;
                     };
 
@@ -159,6 +164,8 @@ const actions : IActions = {
                     clickOpe = false;
                 } else {
                     if(clickNum && clickOpe) {
+                        console.log(3)
+
                         commit('RESULT');
                         commit('RECORD');
                         state.process  = '' + state.process + state.clickVal;
@@ -168,6 +175,8 @@ const actions : IActions = {
                     };
 
                     if(clickNum && !clickEnter && !clickOpe) {
+                        console.log(4)
+
                         clickOnlyNum = true;
                         state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
     
@@ -215,7 +224,11 @@ const mutations = {
             } else {
                 console.log(state.clickVal);
                 console.log(state.process)
-                state.resultVal = eval(state.clickVal + state.process );
+                if(!Number(state.process.slice(-1))){
+                    state.resultVal = eval(state.process + state.clickVal);
+                } else {
+                    state.resultVal = eval(state.clickVal + state.process );
+                };
             };
 
             if(!isFinite(state.resultVal)) {
@@ -238,14 +251,11 @@ const mutations = {
             };
         };
     },
-    'RECORD': (state: TState) => {
+    'RECORD': (state: TState, payload: boolean) => {
         if(clickOnlyNum) {
-            return state.record = state.record.concat({
-                process: state.process, 
-                result: state.clickVal,
-            });
+            return state.record = state.record.concat({process: state.process, result: state.clickVal});
         } else {
-            if(!clickOpe) {
+            if(!clickOpe || payload) {
                 return state.record = state.record.concat({process: state.process, result: state.resultVal});
             } else {
                 return state.record = state.record.concat({process:state.process + state.clickVal, result: state.resultVal});
@@ -258,17 +268,22 @@ const mutations = {
         state.resultVal = 0;
     },
     'CLEAR_ENTRY': (state: TState) => {
-        let firstInput = true;
+        let filterVal = true;
 
         if(clickEnter && !checkCE) {
             checkCE = true;
-            return state.process = state.process.split('').map((val, i) => {
+            const arr = state.process.split('').reverse().map((val, i) => {
                 if (isNaN(Number(val)) && i !== 0) {
-                    firstInput = false;
+                    filterVal = false;
                 };
             
-                return firstInput ? "" : val;
-            }).join(''); 
+                return { val, filterVal } ;
+            });
+
+            return state.process = arr.reduce((be:any, cur, i) => {
+                return cur.filterVal || arr[i-1].filterVal ?
+                     be.concat(cur.val) : be.concat('')
+            }, []).reverse().join('');
         } else {
             return state.clickVal = '';
         };
