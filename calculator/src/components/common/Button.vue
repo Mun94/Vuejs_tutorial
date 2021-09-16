@@ -4,7 +4,7 @@
     </button>
 </template>
 
-<script lang = "ts">
+<script lang = 'ts'>
     interface IData {
         backgroundColor: string;
     };

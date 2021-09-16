@@ -41,7 +41,7 @@
     </div>
 </template>
 
-<script lang = "ts">
+<script lang = 'ts'>
     import Button, { IButton } from './common/Button.vue';
  
     interface IMethods {

@@ -18,11 +18,15 @@
         <div class = "remove" @click = "removeAllRecord">
             <font-awesome-icon icon = "trash" class="icon alt"/>
         </div>
+        <Modal :modalOpen = "modalOpen"></Modal>
     </div>
 </template>
 
-<script lang = "ts">
+<script lang = 'ts'>
+    import Modal from './common/Modal.vue';
+
     interface IData {
+        modalOpen: boolean;
         records: string[] | string;
     };
 
@@ -49,6 +53,7 @@
         name: 'RecordPad',
         data() { 
             return {
+                modalOpen: false,
                 records: (this as unknown as IThis).getRecordVal(),
         }},
         methods: {
@@ -60,10 +65,12 @@
         },
         computed: {
             removeAllRecord() {
+                (this as IThis).modalOpen = true;
                 (this as IThis).records = '';
                 (this as IThis).$store.commit('REMOVE_ALL_RECORD');
             }
-        }
+        },
+        components : { Modal }
     } as IRecordPad;
 </script>
 
