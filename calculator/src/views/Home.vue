@@ -10,9 +10,11 @@
   import CalculatorPad from '../components/CalculatorPad.vue';
   import CalculationScreen, { ICalculationScreen } from '../components/CalculationScreen.vue';
   import RecordPad from '../components/RecordPad.vue';
+
   type TThis = {
     $store: any
   };
+  
   export default defineComponent({
     name: 'Home',
     computed: {

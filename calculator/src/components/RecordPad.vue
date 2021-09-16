@@ -37,9 +37,9 @@
     type TThis = IData & IMethods & IComputed & { $store: any };
 
     interface IRecordPad {
-        name: string,
-        data:() => IData,
-        methods: IMethods,
+        name    : string,
+        data    :() => IData,
+        methods : IMethods,
         computed: IComputed
     };
 
@@ -89,6 +89,8 @@
 
     .process {
         margin-top: 5px;
+
+        word-break: break-word;
 
         letter-spacing: 5px;
     }

@@ -35,7 +35,7 @@
                 <td><Button @click = "clickEvent('', 'plusMinus')" valType = "num">+/-</Button></td>
                 <td><Button @click = "clickEvent('0', 'number')"   valType = "num">0</Button></td>
                 <td><Button @click = "clickEvent('.', 'number')"   valType = "num">.</Button></td>
-                <td><Button @click = "clickEvent('', 'equals')">=</Button></td>
+                <td><Button @click = "clickEvent('', 'enter')">=</Button></td>
             </tr>
         </table>
     </div>
@@ -53,10 +53,10 @@
     };
 
     interface ICalculatorPad {
-        name: string;
-        data?: () => void;
-        methods: IMethods;
-        components: { Button: Pick<IButton, 'name'> };
+        name      : string;
+        data?     : () => void;
+        methods   : IMethods;
+        components: { Button: IButton };
     };
 
     export default {

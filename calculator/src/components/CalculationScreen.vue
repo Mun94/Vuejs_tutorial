@@ -26,9 +26,9 @@
     type TThis = IMethods & IComputed & { $store: any };
 
     export interface ICalculationScreen {
-        name: string;
-        data?:() => void;
-        methods: IMethods;
+        name    : string;
+        data?   :() => void;
+        methods : IMethods;
         computed: IComputed;
     };
 
@@ -86,6 +86,10 @@
     }
 
     .result {
+        word-break: break-word;
+        overflow: auto;
+        max-height: 110px;
+
         font-size: 40px;
     }
 </style>
