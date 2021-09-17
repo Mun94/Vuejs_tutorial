@@ -20,14 +20,18 @@
 
     export interface IButton {
         name: string;
-        props: string[];
+        props: { [key: string]: object };
         data?: () => IData;
         methods: IMethods;
     };
 
     export default {
         name: 'Button',
-        props: ['buttonType'],
+        props: {
+            buttonType: {
+                type: String,
+            }
+        },
         data() {
             return {
                 backgroundColor: (this as unknown as IThis).color()

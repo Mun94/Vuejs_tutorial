@@ -14,13 +14,18 @@
 <script lang = 'ts'>
     export interface IModal {
         name : string;
-        props: string[];
+        props: { [key:string]: object };
         data : () => void;
     };
 
     export default {
         name: 'Modal',
-        props: ['modalOpen'],
+        props: {
+            modalOpen: {
+                type: Boolean,
+                required: true,
+            }
+        },
         data() {return {}; }
     }
 </script>
