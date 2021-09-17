@@ -121,7 +121,6 @@ const actions : IActions = {
                 
                 if(clickClearEntry) { // 다음 숫자 누르기 이전에 숫자, 연산자 클릭 후 ce 버튼을 눌렀을 때
                     if(Number(state.process.slice(0, 1))) {
-                        console.log('0000')
                         clickCENumAfterOpe = true;
                     };
                 };
@@ -281,7 +280,6 @@ const mutations = {
                      be.concat(cur.val) : be.concat('')
             }, []).reverse().join('');
         } else {
-            console.log(123123)
             return state.clickVal = '';
         };
     },

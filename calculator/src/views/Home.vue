@@ -24,7 +24,7 @@
     },
     components: {
       CalculationScreen,
-    } as {CalculationScreen: Pick<ICalculationScreen, 'name'>},
+    } as { CalculationScreen: Pick<ICalculationScreen, 'name'> },
   });
 </script>
 
