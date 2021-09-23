@@ -64,7 +64,7 @@ const state: IState = {
 
 let { clickNum, clickOpe, clickEnter, clickPlusMinus, clickClearEntry, clickCENumAfterOpe, checkCE, checkInfinityAndNaN } = state.clickStatus
 
-const actions : IActions = {
+const actions: IActions = {
     cal: ({ commit, state }, payload) => {
         const { val, controller } = payload;
 
