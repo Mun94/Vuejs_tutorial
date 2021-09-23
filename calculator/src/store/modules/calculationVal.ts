@@ -21,6 +21,7 @@ interface IActions {
 interface IMutations {
     PROCESS: (state: IState, payload: number | string) => string;
     CLICK_VAL: (state: IState, payload: number | string) => string;
+    PLUSMINUS: (state: IState) => void;
     RESULT_AND_RECORD: (state: IState, payload: string) => void;
     CLEAR: (state: IState) => void;
     CLEAR_ENTRY: (state: IState) => string;
@@ -70,97 +71,97 @@ const actions: IActions = {
 
         switch(controller) {
             case 'operator': 
-                if(state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
-                    return;
-                };
+                // if(state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
+                //     return;
+                // };
 
-                const callProcess = (): void => {
-                    state.process = '';
+                // const callProcess = (): void => {
+                //     state.process = '';
               
-                    commit('PROCESS', val);
-                    state.resultVal = 0;
-                };
+                //     commit('PROCESS', val);
+                //     state.resultVal = 0;
+                // };
 
-                if(clickNum) { // 숫자 클릭 후 연산자 사용 가능, 연산자 클릭 후 또 연산자 클릭 못 하게
-                    if(clickClearEntry) { // CE 눌렀을 때
-                        callProcess();
+                // if(clickNum) { // 숫자 클릭 후 연산자 사용 가능, 연산자 클릭 후 또 연산자 클릭 못 하게
+                //     if(clickClearEntry) { // CE 눌렀을 때
+                //         callProcess();
                         
-                        state.clickVal = '';
+                //         state.clickVal = '';
 
-                        clickClearEntry = false;
-                    } else { 
-                        if(state.resultVal && !clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
-                            callProcess();
-                        } else if(state.resultVal && clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
-                            callProcess();
+                //         clickClearEntry = false;
+                //     } else { 
+                //         if(state.resultVal && !clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+                //             callProcess();
+                //         } else if(state.resultVal && clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+                //             callProcess();
 
-                            clickPlusMinus = false;
-                        } else {
-                            if(state.process.split('-')[0] === state.process.split('-')[1] || state.process.includes('*0')) { // 이전 계산 결과값이 0 이면
-                                state.process = '';
-                            }; 
+                //             clickPlusMinus = false;
+                //         } else {
+                //             if(state.process.split('-')[0] === state.process.split('-')[1] || state.process.includes('*0')) { // 이전 계산 결과값이 0 이면
+                //                 state.process = '';
+                //             }; 
                             
-                            if(state.process.includes('0*') || state.process.includes('0/')) { // 계산 결과값이 없거나 계산식에 0*, 0/ 이 있으면
-                                state.process = '';
+                //             if(state.process.includes('0*') || state.process.includes('0/')) { // 계산 결과값이 없거나 계산식에 0*, 0/ 이 있으면
+                //                 state.process = '';
 
-                                state.clickVal = '0';
-                            }; 
+                //                 state.clickVal = '0';
+                //             }; 
                             
-                            if(checkInfinityAndNaN) { // 값이 무한인지 확인
-                                state.process = '';
+                //             if(checkInfinityAndNaN) { // 값이 무한인지 확인
+                //                 state.process = '';
 
-                                checkInfinityAndNaN = false;
-                            };
-                            commit('PROCESS', val);
-                            state.resultVal = 0;
-                        };
+                //                 checkInfinityAndNaN = false;
+                //             };
+                //             commit('PROCESS', val);
+                //             state.resultVal = 0;
+                //         };
 
-                        state.clickVal = '';
-                        clickNum = false;
-                    };
+                //         state.clickVal = '';
+                //         clickNum = false;
+                //     };
 
-                    clickOpe = true;
-                };
+                //     clickOpe = true;
+                // };
             
                 break;
             case 'number':
-                if(val === '.' && (state.clickVal.includes('.') && !clickEnter)) {
-                    return;
-                }; // '.' 을 여러번 클릭해도 한번만 입력 되게
+                // if(val === '.' && (state.clickVal.includes('.') && !clickEnter)) {
+                //     return;
+                // }; // '.' 을 여러번 클릭해도 한번만 입력 되게
                 
-                if(state.clickVal.slice(0, 1) === '0') {
-                    state.clickVal = '';
-                }; // 첫 자리 수가 0 일때 0이 여러번 클릭 되지 않게
+                // if(state.clickVal.slice(0, 1) === '0') {
+                //     state.clickVal = '';
+                // }; // 첫 자리 수가 0 일때 0이 여러번 클릭 되지 않게
 
-                if(clickEnter) { 
-                    state.clickVal = '';
+                // if(clickEnter) { 
+                //     state.clickVal = '';
 
-                    clickEnter = false;
-                };
+                //     clickEnter = false;
+                // };
                 
-                if(clickClearEntry) { // 다음 숫자 누르기 이전에 숫자, 연산자 클릭 후 ce 버튼을 눌렀을 때
-                    if(Number(state.process.slice(0, 1))) {
-                        clickCENumAfterOpe = true;
-                    };
-                };
+                // if(clickClearEntry) { // 다음 숫자 누르기 이전에 숫자, 연산자 클릭 후 ce 버튼을 눌렀을 때
+                //     if(Number(state.process.slice(0, 1))) {
+                //         clickCENumAfterOpe = true;
+                //     };
+                // };
 
-                if(checkInfinityAndNaN) { // 이전 계산 값이 무한이면
-                    state.process = ''
-                    checkInfinityAndNaN = false;
-                };
+                // if(checkInfinityAndNaN) { // 이전 계산 값이 무한이면
+                //     state.process = ''
+                //     checkInfinityAndNaN = false;
+                // };
 
-                clickNum = true;
-                commit('CLICK_VAL', val);
+                // clickNum = true;
+                // commit('CLICK_VAL', val);
                 break;
             case 'plusMinus':
-                if(state.clickVal.includes('-')) { // '+ / -' 변환
-                    state.clickVal = state.clickVal.slice(1);
-                    state.resultVal = Math.abs(state.resultVal);
-                    clickPlusMinus = false;
-                } else {
-                    state.clickVal = '-' + state.clickVal; 
-                    clickPlusMinus = true;
-                };
+                // if(state.clickVal.includes('-')) { // '+ / -' 변환
+                //     state.clickVal = state.clickVal.slice(1);
+                //     state.resultVal = Math.abs(state.resultVal);
+                //     clickPlusMinus = false;
+                // } else {
+                //     state.clickVal = '-' + state.clickVal; 
+                //     clickPlusMinus = true;
+                // };
                 break;
             case 'enter':
                 checkCE = false;
@@ -223,11 +224,100 @@ const actions: IActions = {
 };
 
 const mutations: IMutations = {
-    'PROCESS': (state, payload) => {
-        return state.process += state.clickVal + payload;
+    'PROCESS': (state, payload):any => {
+        if(state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
+                    return;
+                };
+
+                const callProcess = (): void => {
+                    state.process = '';
+              
+                    state.process += state.clickVal + payload;
+                    state.resultVal = 0;
+                };
+
+                if(clickNum) { // 숫자 클릭 후 연산자 사용 가능, 연산자 클릭 후 또 연산자 클릭 못 하게
+                    if(clickClearEntry) { // CE 눌렀을 때
+                        callProcess();
+                        
+                        state.clickVal = '';
+
+                        clickClearEntry = false;
+                    } else { 
+                        if(state.resultVal && !clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+                            callProcess();
+                        } else if(state.resultVal && clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+                            callProcess();
+
+                            clickPlusMinus = false;
+                        } else {
+                            if(state.process.split('-')[0] === state.process.split('-')[1] || state.process.includes('*0')) { // 이전 계산 결과값이 0 이면
+                                state.process = '';
+                            }; 
+                            
+                            if(state.process.includes('0*') || state.process.includes('0/')) { // 계산 결과값이 없거나 계산식에 0*, 0/ 이 있으면
+                                state.process = '';
+
+                                state.clickVal = '0';
+                            }; 
+                            
+                            if(checkInfinityAndNaN) { // 값이 무한인지 확인
+                                state.process = '';
+
+                                checkInfinityAndNaN = false;
+                            };
+                            state.process += state.clickVal + payload;
+                            state.resultVal = 0;
+                        };
+
+                        state.clickVal = '';
+                        clickNum = false;
+                    };
+
+                    clickOpe = true;
+                };
+        
     },
-    'CLICK_VAL': (state, payload) => {
+    'CLICK_VAL': (state, payload): any => {
+        console.log(payload)
+        if(payload === '.' && (state.clickVal.includes('.') && !clickEnter)) {
+            return;
+        }; // '.' 을 여러번 클릭해도 한번만 입력 되게
+        
+        if(state.clickVal.slice(0, 1) === '0') {
+            state.clickVal = '';
+        }; // 첫 자리 수가 0 일때 0이 여러번 클릭 되지 않게
+
+        if(clickEnter) { 
+            state.clickVal = '';
+
+            clickEnter = false;
+        };
+        
+        if(clickClearEntry) { // 다음 숫자 누르기 이전에 숫자, 연산자 클릭 후 ce 버튼을 눌렀을 때
+            if(Number(state.process.slice(0, 1))) {
+                clickCENumAfterOpe = true;
+            };
+        };
+
+        if(checkInfinityAndNaN) { // 이전 계산 값이 무한이면
+            state.process = ''
+            checkInfinityAndNaN = false;
+        };
+
+        clickNum = true;
+        // commit('CLICK_VAL', val);
         return state.clickVal += payload;
+    },
+    'PLUSMINUS': state => {
+        if(state.clickVal.includes('-')) { // '+ / -' 변환
+            state.clickVal = state.clickVal.slice(1);
+            state.resultVal = Math.abs(state.resultVal);
+            clickPlusMinus = false;
+        } else {
+            state.clickVal = '-' + state.clickVal; 
+            clickPlusMinus = true;
+        };
     },
     'RESULT_AND_RECORD': (state, payload) => {
         switch(payload) {

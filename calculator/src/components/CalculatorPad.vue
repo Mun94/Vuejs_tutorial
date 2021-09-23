@@ -64,7 +64,30 @@
         data() { return {} },
         methods: {
             clickEvent(val, controller) {
-                return (this as unknown as IThis).$store.dispatch('cal', {val, controller});
+                switch(controller) {
+                    case 'operator':
+                        (this as unknown as IThis).$store.commit('PROCESS', val);
+                        break;
+                    case 'number':
+                        console.log('123');
+                        (this as unknown as IThis).$store.commit('CLICK_VAL', val);
+                        break;
+                    case 'plusMinus':
+                        (this as unknown as IThis).$store.commit('PLUSMINUS', val);
+                        break;
+                    case 'enter':
+                        (this as unknown as IThis).$store.commit('ENTER', val);
+                        break;
+                    case 'backspace':
+                        break;
+                    case 'clear':
+                        break;
+                    case 'clearEntry':
+                        break;
+                    default:
+                        break;
+                };
+                //return (this as unknown as IThis).$store.dispatch('cal', { val, controller });
             },
         },
         components: { 
