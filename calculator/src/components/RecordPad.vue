@@ -61,7 +61,7 @@
             getRecordVal() {
                 const { recordVal } = (this as IThis).$store.getters;
 
-                return recordVal.length > 0 ? recordVal.reverse() : '';
+                return recordVal.length > 0 ? [...recordVal].reverse() : '';
             },
         },
         computed: {

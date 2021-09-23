@@ -75,7 +75,7 @@ const actions : IActions = {
 
                             clickPlusMinus = false;
                         } else {
-                            if(state.process.split('-')[0] === state.process.split('-')[1]) {
+                            if(state.process.split('-')[0] === state.process.split('-')[1] || state.process.includes('*0')) {
                                 state.process = ''
                             }; // 이전 계산 결과값이 0 이면
 
@@ -153,12 +153,18 @@ const actions : IActions = {
                         state.process  = '' + state.process + state.clickVal;
                         state.clickVal = '' + state.resultVal;
                     } else {
-                        commit('RESULT');
                         if(!Number(state.process.slice(-1))) { // 숫자 클릭 -> CE -> 숫자 -> 엔터
-                            state.process  = '0 +' + state.process + state.clickVal;
-                            commit('RECORD', 'true');
+                            if(state.process.includes('*0')) {
+                                commit('RESULT');
+                                state.process  = state.clickVal + state.process;
+                                commit('RECORD', 'true');
+                            } else {
+                                commit('RESULT');
+                                state.process  = '0 +' + state.process + state.clickVal;
+                                commit('RECORD', 'true');
+                            };
                         } else { // 숫자 클릭 -> 연산자 -> 숫자 -> 엔터 -> CE -> 숫자 -> 엔터
-        
+                            commit('RESULT');
                             state.process  = '' + state.clickVal + state.process;
                             commit('RECORD');
                         };
@@ -218,12 +224,16 @@ const mutations = {
     'RESULT': (state: TState) => {
         if(clickClearEntry) {
             if(clickCENumAfterOpe) {
-               clickCENumAfterOpe = false;
+                clickCENumAfterOpe = false;
 
                 state.resultVal = eval(`${state.process} ${state.clickVal}`);
             } else {
-                if(!Number(state.process.slice(-1))){
-                    state.resultVal = eval(state.process + state.clickVal);
+                if(!Number(state.process.slice(-1))) {
+                    if(state.process.includes('*0')) {
+                        state.resultVal = eval(state.clickVal + state.process);
+                    } else {
+                        state.resultVal = eval(state.process + state.clickVal);
+                    };
                 } else {
                     state.resultVal = eval(state.clickVal + state.process);
                 };
@@ -251,7 +261,7 @@ const mutations = {
             if(!clickOpe || payload) {
                 return state.record = state.record.concat({process: state.process, result: state.resultVal});
             } else {
-                return state.record = state.record.concat({process:state.process + state.clickVal, result: state.resultVal});
+                return state.record = state.record.concat({process: state.process + state.clickVal, result: state.resultVal});
             };
         };
     },
