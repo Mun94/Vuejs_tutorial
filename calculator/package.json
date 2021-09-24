@@ -20,12 +20,28 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-exem": "^3.1.2",
+    "eslint-import-resolver-webpack": "^0.13.0",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-exem": "^1.2.0",
+    "stylelint-webpack-plugin": "^2.1.1",
     "typescript": "~4.1.5"
-  }
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".eslintrc.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

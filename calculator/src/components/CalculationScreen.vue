@@ -1,56 +1,51 @@
 <template>
-    <div class = 'screenWrap'>
-        <div class = "title">계산기</div>
-        <div class = "recordIcon">
-            <font-awesome-icon icon = "clock" class = "icon alt" @click = "changeScreen"/>
-        </div>
-         <div class = "process">
-            {{ processGet || '계산 과정'}}
-        </div>
-        <div class = "result">
-            {{ resultGet }}
-        </div>
-    </div>    
+  <div class="screenWrap">
+    <div class="title">
+      계산기
+    </div>
+    <div class="recordIcon">
+      <font-awesome-icon
+        icon="clock"
+        class="icon alt"
+        @click="changeScreen"
+      />
+    </div>
+    <div class="process">
+      {{ process || '계산 과정' }}
+    </div>
+    <div class="result">
+      {{ result }}
+    </div>
+  </div>
 </template>
 
 <script lang = 'ts'>
-    interface IMethods {
-        changeScreen: () => void;
-    };
+import { computed, ComputedRef } from 'vue';
+import { useStore, Store } from 'vuex';
 
-    interface IComputed {
-        processGet: () => void;
-        resultGet: () => void;
-    };
-
-    interface IThis extends IMethods, IComputed {
-        $store: any
-    };
-
-    export interface ICalculationScreen {
-        name    : string;
-        data?   : () => void;
-        methods : IMethods;
-        computed: IComputed;
-    };
-
-    export default {
-        name: 'CalculatorScreen',
-        data() { return {}},
-        methods: {
-            changeScreen() {
-                (this as IThis).$store.commit('CHANGE');
-            }
-        },
-        computed: {
-            processGet() {
-                return (this as IThis).$store.getters.processVal;
-            },
-            resultGet() {
-                return (this as IThis).$store.getters.resultVal;
-            },
+export interface ICalculationScreen {
+        name: string;
+        setup: () => {
+            process: ComputedRef<string>,
+            result: ComputedRef<number>,
+            changeScreen: () => void
         }
-    } as ICalculationScreen;
+    }
+
+export default {
+  name: 'CalculatorScreen',
+  setup() {
+    const store = useStore<Store<any>>();
+
+    const changeScreen = (): void => store.commit('CHANGE');
+
+    const process: ComputedRef<string> = computed(() => store.getters.processVal);
+
+    const result: ComputedRef<number> = computed(() => store.getters.resultVal);
+
+    return { process, result, changeScreen };
+  },
+} as ICalculationScreen;
 </script>
 
 <style scoped>

@@ -1,17 +1,18 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
+/* eslint-disable linebreak-style */
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Home from '../views/Home.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'HomeCom',
-    component: Home
-  }
-]
+    component: Home,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL) || true,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

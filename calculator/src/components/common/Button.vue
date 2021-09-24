@@ -1,48 +1,44 @@
 <template>
-    <button class = "button" >
-        <slot></slot>
-    </button>
+  <button class="button">
+    <slot />
+  </button>
 </template>
 
 <script lang = 'ts'>
-    interface IData {
-        backgroundColor: string;
-    };
+/* eslint-disable no-unused-vars */
+import {
+  computed, ComputedRef, toRefs, ToRefs,
+} from 'vue';
 
-    interface IMethods {
-        color: () => string;
-    };
+interface IData {
+  [key: string]: unknown
+}
 
-    interface IThis extends IMethods {
-        $store: any;
-        buttonType: string;
-    };
-
-    export interface IButton {
+export interface IButton {
         name: string;
-        props: { [key: string]: object };
-        data?: () => IData;
-        methods: IMethods;
-    };
+        props: { [key: string]: { [key: string]: any} };
+        setup: (props: IData) => { backgroundColor: ComputedRef<string> }
+   }
 
-    export default {
-        name: 'Button',
-        props: {
-            buttonType: {
-                type: String,
-            }
-        },
-        data() {
-            return {
-                backgroundColor: (this as unknown as IThis).color()
-            };
-        },
-        methods: {
-          color() {
-            return (this as IThis).buttonType === 'num' ? '#111111' : '#343434';
-          }
-        } 
-    } as IButton;
+export default {
+  name: 'Button',
+  props: {
+    buttonType: {
+      type: String,
+    },
+  },
+  setup(props: IData) {
+    const { buttonType } = toRefs<ToRefs<any>>(props);
+
+    const backgroundColor: ComputedRef<string> = computed(() => {
+      const val = buttonType.value === 'num' ? '#111111' : '#343434';
+
+      return val;
+    });
+
+    return { backgroundColor };
+  },
+} as IButton;
 </script>
 
 <style scoped>

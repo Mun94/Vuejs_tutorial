@@ -1,33 +1,35 @@
 <template>
-    <teleport to = "body">
-      <div v-if = "modalOpen" class = "modal">
-        <div>
-          삭제 되었습니다.
-          <button @click="modalOpen = false">
-            닫기
-          </button>
-        </div>
+  <teleport to="body">
+    <div
+      v-if="modalOpen"
+      class="modal"
+    >
+      <div>
+        삭제 되었습니다.
+        <button @click="$emit('toggleModal', false)">
+          닫기
+        </button>
       </div>
-    </teleport>
+    </div>
+  </teleport>
 </template>
 
 <script lang = 'ts'>
-    export interface IModal {
+export interface IModal {
         name : string;
-        props: { [key:string]: object };
-        data : () => void;
-    };
-
-    export default {
-        name: 'Modal',
-        props: {
-            modalOpen: {
-                type: Boolean,
-                required: true,
-            }
-        },
-        data() {return {}; }
+        props: { [key: string]: { [key: string]: any} };
     }
+
+export default {
+  name: 'Modal',
+  props: {
+    modalOpen: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ['toggleModal'],
+};
 </script>
 
 <style scoped>
@@ -36,10 +38,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
- 
+
         bottom: 70px;
         left: 30px;
-        
+
         width: 400px;
         height: 300px;
 
