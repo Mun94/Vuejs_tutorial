@@ -37,15 +37,14 @@ interface IMutations {
     CLEAR_ENTRY: (state: IState) => string;
     REMOVE_ALL_RECORD: (state: IState) => never[];
 }
-
+interface IResult {
+    process: string;
+    result: number | string;
+}
 interface IGetters {
     processVal: (state: IState) => string;
     resultVal: (state: IState) => string;
     recordVal: (state: IState) => IResult[];
-}
-interface IResult {
-    process: string;
-    result: number | string;
 }
 
 type TCurrentVal = { val: string, filterVal: boolean };
@@ -89,12 +88,11 @@ const actions: IActions = {
     const { val, controller } = payload;
 
     switch (controller) {
-      case 'operator':
+      case 'operator': {
         if (state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
           return;
         }
 
-        // eslint-disable-next-line no-case-declarations
         const callProcess = (): void => {
           state.process = '';
 
@@ -144,7 +142,7 @@ const actions: IActions = {
         }
 
         break;
-      case 'number':
+      } case 'number': {
         if (val === '.' && (state.clickVal.includes('.') && !clickEnter)) {
           return;
         } // '.' 을 여러번 클릭해도 한번만 입력 되게
@@ -173,7 +171,7 @@ const actions: IActions = {
         clickNum = true;
         commit('CLICK_VAL', val);
         break;
-      case 'plusMinus':
+      } case 'plusMinus': {
         if (state.clickVal.includes('-')) { // '+ / -' 변환
           state.clickVal = state.clickVal.slice(1);
           state.resultVal = Math.abs(state.resultVal);
@@ -183,7 +181,7 @@ const actions: IActions = {
           clickPlusMinus = true;
         }
         break;
-      case 'enter':
+      } case 'enter': {
         checkCE = false;
 
         const callResultRecord = (recordOpt?: string | undefined): void => {
@@ -223,55 +221,78 @@ const actions: IActions = {
         }
         state.clickVal = `${state.resultVal}`;
         break;
-      case 'backspace':
-        if (clickNum && !clickEnter) { // 숫자를 누르고 엔터 키를 누르지 않았을 때 (숫자 키를 누르면 clickEnter 초기화 됨 이렇게 안 하면 계산된 값이 지워질 수 있음)
-          return state.clickVal = state.clickVal.slice(0, -1);
+      } case 'backspace': {
+        if (clickNum && !clickEnter) {
+          // 숫자를 누르고 엔터 키를 누르지 않았을 때 (숫자 키를 누르면 clickEnter 초기화 됨 이렇게 안 하면 계산된 값이 지워질 수 있음)
+          state.clickVal = state.clickVal.slice(0, -1);
         }
         break;
-      case 'clear':
+      } case 'clear': {
         commit('CLEAR'); // 초기화
         break;
-      case 'clearEntry':
+      } case 'clearEntry': {
         clickClearEntry = true;
         state.clickVal = '';
 
         commit('CLEAR_ENTRY');
         break;
+      } default: {
+        break; }
     }
   },
 };
 
 const mutations: IMutations = {
-  PROCESS: (state, payload) => state.process += state.clickVal + payload,
-  CLICK_VAL: (state, payload) => state.clickVal += payload,
+  PROCESS: (state, payload) => {
+    state.process += state.clickVal + payload;
+
+    return state.process;
+  },
+  CLICK_VAL: (state, payload) => {
+    state.clickVal += payload;
+
+    return state.clickVal;
+  },
   RESULT_AND_RECORD: (state, payload) => {
     switch (payload) {
-      case 'addClickValFirst':
+      case 'addClickValFirst': {
         const sum = `${state.clickVal}${state.process}`;
 
         state.resultVal = eval(sum);
-        state.record = state.record.concat({ process: state.process = sum, result: state.resultVal } as IResult);
+        state.record = state.record.concat({
+          process: state.process = sum,
+          result: state.resultVal,
+        } as IResult);
         break;
-      case 'addZeroFirst':
+      } case 'addZeroFirst': {
         const sum2 = `0+${state.process}${state.clickVal}`;
 
         state.resultVal = eval(sum2);
-        state.record = state.record.concat({ process: state.process = sum2, result: state.resultVal } as IResult);
+        state.record = state.record.concat({
+          process: state.process = sum2,
+          result: state.resultVal,
+        } as IResult);
         break;
-      case 'addProcessFirst':
+      } case 'addProcessFirst': {
         clickCENumAfterOpe = false;
 
         const sum3 = `${state.process}${state.clickVal}`;
         state.resultVal = eval(sum3);
-        state.record = state.record.concat({ process: state.process = sum3, result: state.resultVal } as IResult);
+        state.record = state.record.concat({
+          process: state.process = sum3,
+          result: state.resultVal,
+        } as IResult);
         break;
-      default: // 숫자만 클릭
+      } default: { // 숫자만 클릭
         state.resultVal = eval(state.process);
-        state.record = state.record.concat({ process: state.process, result: state.resultVal } as IResult);
-        break;
+        state.record = state.record.concat({
+          process: state.process,
+          result: state.resultVal,
+        } as IResult);
+        break; }
     }
 
-    if (!isFinite(state.resultVal)) { // 결과 값이 무한인지 확인
+    if (!Number.isFinite(state.resultVal)) { // 결과 값이 무한인지 확인
       checkInfinityAndNaN = true;
 
       state.resultVal = 0;
@@ -290,21 +311,29 @@ const mutations: IMutations = {
     if (!checkCE) { // CE가 여러번 눌리지 않게
       checkCE = true;
       const arr: TArr = state.process.split('').reverse().map((val: string, i: number): TCurrentVal => {
-        if (isNaN(Number(val)) && i !== 0) {
+        if (Number.isNaN(Number(val)) && i !== 0) {
           filterVal = false;
         }
 
         return { val, filterVal };
       });
 
-      return state.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => // 가장 최근 입력한 값만 남기고 모두 삭제
-        (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
-          ? be.concat(cur.val) : be.concat('')),
-      []).reverse().join('');
+      state.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
+        ? be.concat(cur.val) : be.concat('')),
+      []).reverse().join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
+
+      return state.process;
     }
-    return state.clickVal = '';
+
+    state.clickVal = '';
+
+    return state.clickVal;
   },
-  REMOVE_ALL_RECORD: (state) => state.record = [],
+  REMOVE_ALL_RECORD: (state) => {
+    state.record = [];
+
+    return [];
+  },
 };
 
 const getters: IGetters = {

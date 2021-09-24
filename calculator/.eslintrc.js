@@ -23,6 +23,7 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-shadow': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/extensions': ['error', 'ignorePackages', {
       js: 'never',
@@ -32,7 +33,9 @@ module.exports = {
       tsx: 'never',
       'd.ts': 'never',
     }],
-    'no-param-reassign': 'off',
+    'no-unused-vars': 'off', // 추가
+    'no-param-reassign': 'off', // 추가
+    'no-eval': 'off', // 추가
     'no-unused-expressions': 'off',
     'no-useless-constructor': 'off',
     'import/no-cycle': 'off',

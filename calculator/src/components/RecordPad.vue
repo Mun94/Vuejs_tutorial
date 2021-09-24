@@ -65,7 +65,7 @@ export default {
     const modalOpen: Ref<boolean> = ref<boolean>(false);
 
     const recordVal: string[] = computed(() => store.getters.recordVal).value;
-    const records: Ref<string[] | string> = ref<string[]|string>(recordVal.length > 0 ? recordVal.reverse() : '');
+    const records: Ref<string[] | string> = ref<string[]|string>(recordVal.length > 0 ? [...recordVal].reverse() : '');
 
     const removeAllRecord: ComputedRef<string> = computed(() => {
       modalOpen.value = true;
