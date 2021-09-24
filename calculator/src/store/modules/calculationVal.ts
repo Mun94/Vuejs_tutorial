@@ -74,7 +74,14 @@ const state: IState = {
 };
 
 let {
-  clickNum, clickOpe, clickEnter, clickPlusMinus, clickClearEntry, clickCENumAfterOpe, checkCE, checkInfinityAndNaN,
+  clickNum,
+  clickOpe,
+  clickEnter,
+  clickPlusMinus,
+  clickClearEntry,
+  clickCENumAfterOpe,
+  checkCE,
+  checkInfinityAndNaN,
 } = state.clickStatus;
 
 const actions: IActions = {
