@@ -16,9 +16,9 @@
 
 <script lang = 'ts'>
 export interface IModal {
-        name : string;
-        props: { [key: string]: { [key: string]: any} };
-    }
+    name : string;
+    props: { [key: string]: { [key: string]: any} };
+}
 
 export default {
   name: 'Modal',

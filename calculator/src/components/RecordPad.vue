@@ -47,16 +47,16 @@ import {
 import { useStore, Store } from 'vuex';
 import Modal, { IModal } from './common/Modal.vue';
 
-    interface IRecordPad {
-        name: string,
-        setup: () => {
-            modalOpen: Ref<boolean>,
-            records: Ref<string | string[]>,
-            removeAllRecord: ComputedRef<string>,
-            toggleModal: () => string
-        },
-        components: { Modal: unknown | IModal }
-    }
+interface IRecordPad {
+    name: string,
+    setup: () => {
+        modalOpen: Ref<boolean>,
+        records: Ref<string | string[]>,
+        removeAllRecord: ComputedRef<string>,
+        toggleModal: () => string
+    },
+    components: { Modal: unknown | IModal }
+}
 
 export default {
   name: 'RecordPad',

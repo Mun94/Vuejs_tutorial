@@ -1,158 +1,34 @@
 <template>
   <div class="CalculatorPadWrap">
-    <table class="tableWrap">
-      <tr>
-        <td><Button disabled /></td>
-        <td>
-          <Button @click="clickEvent('', 'clearEntry')">
-            CE
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('', 'clear')">
-            C
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('', 'backspace')">
-            <font-awesome-icon
-              icon="backspace"
-              class="icon alt"
-            />
-          </Button>
-        </td>
-      </tr>
-      <tr>
-        <td><Button disabled /></td>
-        <td><Button disabled /></td>
-        <td><Button disabled /></td>
-        <td>
-          <Button @click="clickEvent('/', 'operator')">
-            /
-          </Button>
-        </td>
-      </tr>
-      <tr>
-        <td>
+    <table
+      class="tableWrap"
+    >
+      <tr
+        v-for="calculatorPadVal in calculatorPadVals"
+        :key="calculatorPadVal"
+      >
+        <td
+          v-for="valType in calculatorPadVal"
+          :key="valType"
+        >
           <Button
-            button-type="num"
-            @click="clickEvent('7', 'number')"
-          >
-            7
-          </Button>
-        </td>
-        <td>
+            v-if="!valType.type"
+            disabled
+          />
           <Button
-            button-type="num"
-            @click="clickEvent('8', 'number')"
+            else
+            :button-type="valType.type"
+            @click="clickEvent(valType.value, valType.type)"
           >
-            8
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('9', 'number')"
-          >
-            9
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('*', 'operator')">
-            *
-          </Button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('4', 'number')"
-          >
-            4
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('5', 'number')"
-          >
-            5
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('6', 'number')"
-          >
-            6
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('-', 'operator')">
-            -
-          </Button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('1', 'number')"
-          >
-            1
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('2', 'number')"
-          >
-            2
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('3', 'number')"
-          >
-            3
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('+', 'operator')">
-            +
-          </Button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('', 'plusMinus')"
-          >
-            +/-
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('0', 'number')"
-          >
-            0
-          </Button>
-        </td>
-        <td>
-          <Button
-            button-type="num"
-            @click="clickEvent('.', 'number')"
-          >
-            .
-          </Button>
-        </td>
-        <td>
-          <Button @click="clickEvent('', 'enter')">
-            =
+            <p v-if="valType.otherVal === 'icon'">
+              <font-awesome-icon
+                icon="backspace"
+                class="icon alt"
+              />
+            </p>
+            <p else>
+              {{ valType.value || valType.otherVal }}
+            </p>
           </Button>
         </td>
       </tr>
@@ -161,56 +37,89 @@
 </template>
 
 <script lang = 'ts'>
+import { ref, Ref } from 'vue';
 import { useStore, Store } from 'vuex';
 import Button, { IButton } from './common/Button.vue';
 
 interface ICalculatorPad {
-  name: string;
-  setup: () => { clickEvent: any };
-  components: { Button: IButton };
+    name: string;
+    setup: () => { clickEvent: any, calculatorPadVals: Ref<{ value: string; type: string; }[][]> };
+    components: { Button: IButton };
 }
 
 export default {
   name: 'CalculatorPad',
   setup() {
     const store: Store<any> = useStore();
+    const calculatorPadVals: Ref<{ value: string; type: string; icon?: boolean }[][]> = ref([
+      [
+        { value: '', type: '' },
+        { value: '', type: 'clearEntry', otherVal: 'CE' },
+        { value: '', type: 'clear', otherVal: 'C' },
+        { value: '', type: 'backspace', otherVal: 'icon' }],
+      [
+        { value: '', type: '' },
+        { value: '', type: '' },
+        { value: '', type: '' },
+        { value: '/', type: 'operator' }],
+      [
+        { value: '7', type: 'number' },
+        { value: '8', type: 'number' },
+        { value: '9', type: 'number' },
+        { value: '*', type: 'operator' },
+      ], [
+        { value: '4', type: 'number' },
+        { value: '5', type: 'number' },
+        { value: '6', type: 'number' },
+        { value: '-', type: 'operator' },
+      ], [
+        { value: '1', type: 'number' },
+        { value: '2', type: 'number' },
+        { value: '3', type: 'number' },
+        { value: '+', type: 'operator' },
+      ], [
+        { value: '', type: 'plusMinus', otherVal: '+/-' },
+        { value: '0', type: 'number' },
+        { value: '.', type: 'number' },
+        { value: '', type: 'enter', otherVal: '=' },
+      ]]);
 
     const clickEvent = (val: string, controller: string): void => {
       store.dispatch('cal', { val, controller });
     };
 
-    return { clickEvent };
+    return { clickEvent, calculatorPadVals };
   },
   components: { Button },
 } as ICalculatorPad;
 </script>
 
 <style scoped>
-.calculatorPadWrap {
-  width: 500px;
-  height: 100%;
-}
+    .calculatorPadWrap {
+    width: 500px;
+    height: 100%;
+    }
 
-.tableWrap {
-  width: 100%;
-  height: 100%;
+    .tableWrap {
+    width: 100%;
+    height: 100%;
 
-  border-collapse: collapse;
-  border-spacing: 0;
-}
+    border-collapse: collapse;
+    border-spacing: 0;
+    }
 
-td {
-  width: 100%;
-  height: 60px;
-}
+    td {
+    width: 100%;
+    height: 60px;
+    }
 
-tr {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+    tr {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 
-  width: 100%;
-}
+    width: 100%;
+    }
 </style>

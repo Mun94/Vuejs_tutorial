@@ -24,13 +24,13 @@ import { computed, ComputedRef } from 'vue';
 import { useStore, Store } from 'vuex';
 
 export interface ICalculationScreen {
-        name: string;
-        setup: () => {
-            process: ComputedRef<string>,
-            result: ComputedRef<number>,
-            changeScreen: () => void
-        }
+    name: string;
+    setup: () => {
+        process: ComputedRef<string>,
+        result: ComputedRef<number>,
+        changeScreen: () => void
     }
+}
 
 export default {
   name: 'CalculatorScreen',
