@@ -45,9 +45,11 @@ import {
   computed, ComputedRef, ref, Ref,
 } from 'vue';
 import { useStore, Store } from 'vuex';
-import Modal, { IModal } from './common/Modal.vue';
+import Modal from './common/Modal.vue';
 
-interface IRecordPad {
+import { IModal } from '../types';
+
+export interface IRecordPad {
     name: string,
     setup: () => {
         modalOpen: Ref<boolean>,

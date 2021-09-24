@@ -5,20 +5,12 @@
 </template>
 
 <script lang = 'ts'>
-/* eslint-disable no-unused-vars */
 import {
-  computed, ComputedRef, toRefs, ToRefs,
+  computed, toRefs,
 } from 'vue';
-
-interface IData {
-    [key: string]: unknown
-}
-
-export interface IButton {
-        name: string;
-        props: { [key: string]: { [key: string]: any} };
-        setup: (props: IData) => { backgroundColor: ComputedRef<string> }
-    }
+import {
+  IData, IButton, IToRefs, TBackgroundColor,
+} from '../../types';
 
 export default {
   name: 'Button',
@@ -28,9 +20,9 @@ export default {
     },
   },
   setup(props: IData) {
-    const { buttonType } = toRefs<ToRefs<any>>(props);
+    const { buttonType }: IToRefs = toRefs(props);
 
-    const backgroundColor: ComputedRef<string> = computed(() => {
+    const backgroundColor: TBackgroundColor = computed(() => {
       const val = ['number', 'plusMinus'].includes(buttonType.value) ? '#111111' : '#343434';
 
       return val;

@@ -20,28 +20,21 @@
 </template>
 
 <script lang = 'ts'>
-import { computed, ComputedRef } from 'vue';
-import { useStore, Store } from 'vuex';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-export interface ICalculationScreen {
-    name: string;
-    setup: () => {
-        process: ComputedRef<string>,
-        result: ComputedRef<number>,
-        changeScreen: () => void
-    }
-}
+import { TStore, ICalculationScreen, ValueOf } from '../types';
 
 export default {
   name: 'CalculatorScreen',
   setup() {
-    const store = useStore<Store<any>>();
+    const store: TStore = useStore();
 
     const changeScreen = (): void => store.commit('CHANGE');
 
-    const process: ComputedRef<string> = computed(() => store.getters.processVal);
+    const process: ValueOf<process> = computed(() => store.getters.processVal);
 
-    const result: ComputedRef<number> = computed(() => store.getters.resultVal);
+    const result = computed(() => store.getters.resultVal);
 
     return { process, result, changeScreen };
   },

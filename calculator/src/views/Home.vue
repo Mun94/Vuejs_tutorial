@@ -1,31 +1,46 @@
 <template>
   <div class="block">
     <CalculationScreen />
-    <component :is="pad" />
+    <component :is="togglePad" />
   </div>
 </template>
 
 <script lang = "ts">
-import { defineComponent } from 'vue';
-import CalculatorPad from '../components/CalculatorPad.vue';
-import CalculationScreen, { ICalculationScreen } from '../components/CalculationScreen.vue';
-import RecordPad from '../components/RecordPad.vue';
+import {
+  defineComponent, computed, ComputedRef,
+} from 'vue';
+import { useStore, Store } from 'vuex';
+import CalculationScreen from '../components/CalculationScreen.vue';
+import CalculatorPad, { ICalculatorPad } from '../components/CalculatorPad.vue';
+import RecordPad, { IRecordPad } from '../components/RecordPad.vue';
 
-  interface IThis {
-    $store: any
+import { ICalculationScreen } from '../types';
+
+interface IHome {
+  name: string;
+  components: { CalculationScreen: Pick<ICalculationScreen, 'name'> },
+  setup: () => {
+    togglePad: ComputedRef<IRecordPad | ICalculatorPad>
   }
+}
 
 export default defineComponent({
   name: 'Home',
   components: {
     CalculationScreen,
-  } as { CalculationScreen: Pick<ICalculationScreen, 'name'> },
-  computed: {
-    pad() {
-      return (this as unknown as IThis).$store.getters.checkVal ? RecordPad : CalculatorPad;
-    },
   },
-});
+  setup() {
+    const store = useStore<Store<any>>();
+
+    const togglePad: ComputedRef<IRecordPad | ICalculatorPad> = computed(() => {
+      const val = store.getters.checkVal ? RecordPad : CalculatorPad;
+
+      return val;
+    });
+
+    return { togglePad };
+  },
+} as IHome);
 </script>
 
 <style scoped>

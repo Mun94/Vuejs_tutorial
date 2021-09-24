@@ -39,9 +39,11 @@
 <script lang = 'ts'>
 import { ref, Ref } from 'vue';
 import { useStore, Store } from 'vuex';
-import Button, { IButton } from './common/Button.vue';
+import Button from './common/Button.vue';
 
-interface ICalculatorPad {
+import { IButton } from '../types';
+
+export interface ICalculatorPad {
     name: string;
     setup: () => { clickEvent: any, calculatorPadVals: Ref<{ value: string; type: string; }[][]> };
     components: { Button: IButton };

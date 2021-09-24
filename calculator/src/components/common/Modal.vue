@@ -15,10 +15,7 @@
 </template>
 
 <script lang = 'ts'>
-export interface IModal {
-    name : string;
-    props: { [key: string]: { [key: string]: any} };
-}
+import { IModal } from '../../types';
 
 export default {
   name: 'Modal',
@@ -29,7 +26,7 @@ export default {
     },
   },
   emits: ['toggleModal'],
-};
+} as IModal;
 </script>
 
 <style scoped>
