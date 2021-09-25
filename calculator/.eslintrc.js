@@ -25,17 +25,19 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-shadow': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'import/extensions': ['error', 'ignorePackages', {
-      js: 'never',
-      mjs: 'never',
-      jsx: 'never',
-      ts: 'never',
-      tsx: 'never',
-      'd.ts': 'never',
-    }],
+    // 'import/extensions': ['error', 'ignorePackages', {
+    //   js: 'never',
+    //   mjs: 'never',
+    //   jsx: 'never',
+    //   ts: 'never',
+    //   tsx: 'never',
+    //   'd.ts': 'never',
+    // }],
+    'import/extensions': 'off',
     'no-unused-vars': 'off', // 추가
     'no-param-reassign': 'off', // 추가
-    'no-eval': 'off', // 추가
+    'no-eval': 'off', // 추가,
+    'import/no-unresolved': 'off', // 추가
     'no-unused-expressions': 'off',
     'no-useless-constructor': 'off',
     'import/no-cycle': 'off',

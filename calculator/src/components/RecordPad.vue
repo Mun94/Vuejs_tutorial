@@ -1,64 +1,79 @@
 <template>
   <div class="recordPadWrap">
     <div>
-      <div v-if="records.length > 0" class="existRecords">
-        <div v-for="record in records" :key="record">
-          <div class="process">{{ record.process.replaceAll(" ", "") }} =</div>
+      <div
+        v-if="records.length > 0"
+        class="existRecords"
+      >
+        <div
+          v-for="record in records"
+          :key="record"
+        >
+          <div class="process">
+            {{ record.process.replaceAll(" ", "") }} =
+          </div>
           <div class="result">
             {{ record.result }}
           </div>
         </div>
       </div>
-      <div v-else class="noneRecords">기록 없음</div>
+      <div
+        v-else
+        class="noneRecords"
+      >
+        기록 없음
+      </div>
     </div>
-    <div class="remove" @click="removeAllRecord">
-      <font-awesome-icon icon="trash" class="icon alt" />
+    <div
+      class="remove"
+      @click="removeAllRecord"
+    >
+      <font-awesome-icon
+        icon="trash"
+        class="icon alt"
+      />
     </div>
-    <Modal :modal-open="modalOpen" @toggle-modal="toggleModal" />
+    <Modal
+      :modal-open="modalOpen"
+      @toggle-modal="toggleModal"
+    />
   </div>
 </template>
 
 <script lang = 'ts'>
-import { computed, ComputedRef, ref, Ref } from "vue";
-import { useStore } from "vuex";
-import Modal from "./common/Modal.vue";
+import {
+  computed, ref,
+} from 'vue';
+import { useStore } from 'vuex';
+import Modal from './common/Modal.vue';
 
-import { TStore, IRecordPad } from "../types";
-
-// export interface IRecordPad {
-//     name: string,
-//     setup: () => {
-//         modalOpen: Ref<boolean>,
-//         records: Ref<string | string[]>,
-//         removeAllRecord: ComputedRef<string>,
-//         toggleModal: () => string
-//     },
-//     components: { Modal: unknown | IModal }
-// }
+import {
+  TStore, IRecordPad, TModalOpen, TRecordVal, TRecords, TRemoveAllRecord, TToggleModal,
+} from '../types';
 
 export default {
-  name: "RecordPad",
+  name: 'RecordPad',
   setup() {
     const store: TStore = useStore();
-    const modalOpen: Ref<boolean> = ref<boolean>(false);
+    const modalOpen: TModalOpen = ref(false);
 
-    const recordVal: string[] = computed(() => store.getters.recordVal).value;
-    const records: Ref<string[] | string> = ref<string[] | string>(
-      recordVal.length > 0 ? [...recordVal].reverse() : ""
+    const recordVal: TRecordVal = computed(() => store.getters.recordVal).value;
+    const records: TRecords = ref(
+      recordVal.length > 0 ? [...recordVal].reverse() : ''
     );
 
-    const removeAllRecord: ComputedRef<string> = computed(() => {
+    const removeAllRecord: TRemoveAllRecord = computed(() => {
       modalOpen.value = true;
-      records.value = "";
-      store.commit("REMOVE_ALL_RECORD");
+      records.value = '';
+      store.commit('REMOVE_ALL_RECORD');
 
-      return "";
+      return '';
     });
 
-    const toggleModal = (val: boolean): string => {
+    const toggleModal: TToggleModal = (val) => {
       modalOpen.value = val;
 
-      return "";
+      return '';
     };
 
     return {

@@ -6,23 +6,17 @@
 </template>
 
 <script lang = "ts">
+// /* eslint-disable import/no-unresolved */
+// /* eslint-disable import/extensions */
 import {
-  defineComponent, computed, ComputedRef,
+  defineComponent, computed,
 } from 'vue';
-import { useStore, Store } from 'vuex';
+import { useStore } from 'vuex';
 import CalculationScreen from '../components/CalculationScreen.vue';
 import CalculatorPad from '../components/CalculatorPad.vue';
-import RecordPad, { IRecordPad } from '../components/RecordPad.vue';
+import RecordPad from '../components/RecordPad.vue';
 
-import { ICalculationScreen, ICalculatorPad } from '../types';
-
-interface IHome {
-  name: string;
-  components: { CalculationScreen: Pick<ICalculationScreen, 'name'> },
-  setup: () => {
-    togglePad: ComputedRef<IRecordPad | ICalculatorPad>
-  }
-}
+import { TStore, TTogglePad, IHome } from '../types';
 
 export default defineComponent({
   name: 'Home',
@@ -30,9 +24,9 @@ export default defineComponent({
     CalculationScreen,
   },
   setup() {
-    const store = useStore<Store<any>>();
+    const store: TStore = useStore();
 
-    const togglePad: ComputedRef<IRecordPad | ICalculatorPad> = computed(() => {
+    const togglePad: TTogglePad = computed(() => {
       const val = store.getters.checkVal ? RecordPad : CalculatorPad;
 
       return val;

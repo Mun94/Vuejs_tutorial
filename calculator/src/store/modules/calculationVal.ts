@@ -9,49 +9,11 @@
 // /* eslint-disable max-len */
 // /* eslint-disable no-use-before-define */
 // /* eslint-disable no-unused-vars */
-interface IState {
-    clickVal : string;
-    process : string;
+import {
+  IState, IActions, IMutations, IResult, IGetters, TCurrentVal, TArr, TCallResultRecord,
+} from '../../types';
 
-    resultVal: number;
-
-    record : { process: string, result: number | string }[];
-
-    clickStatus: { [key: string]: boolean };
-}
-
-interface IActions {
-    cal: (
-        { commit, state }:
-            { commit: (key: string, val?: number | string) => void, state: IState },
-        payload:
-            { val: string, controller: string }
-    ) => void
-}
-
-interface IMutations {
-    PROCESS: (state: IState, payload: number | string) => string;
-    CLICK_VAL: (state: IState, payload: number | string) => string;
-    RESULT_AND_RECORD: (state: IState, payload: string) => void;
-    CLEAR: (state: IState) => void;
-    CLEAR_ENTRY: (state: IState) => string;
-    REMOVE_ALL_RECORD: (state: IState) => never[];
-}
-interface IResult {
-    process: string;
-    result: number | string;
-}
-interface IGetters {
-    processVal: (state: IState) => string;
-    resultVal: (state: IState) => string;
-    recordVal: (state: IState) => IResult[];
-}
-
-type TCurrentVal = { val: string, filterVal: boolean };
-
-type TArr = Array<TCurrentVal>;
-
-const state: IState = {
+const state: Omit<IState, 'check'> = {
   clickVal: '',
   process: '',
 
@@ -184,7 +146,7 @@ const actions: IActions = {
       } case 'enter': {
         checkCE = false;
 
-        const callResultRecord = (recordOpt?: string | undefined): void => {
+        const callResultRecord: TCallResultRecord = (recordOpt) => {
           if (recordOpt) {
             commit('RESULT_AND_RECORD', recordOpt);
           } else {
@@ -242,7 +204,7 @@ const actions: IActions = {
   },
 };
 
-const mutations: IMutations = {
+const mutations: Omit<IMutations, 'CHANGE'> = {
   PROCESS: (state, payload) => {
     state.process += state.clickVal + payload;
 
@@ -336,7 +298,7 @@ const mutations: IMutations = {
   },
 };
 
-const getters: IGetters = {
+const getters: Omit<IGetters, 'checkVal'> = {
   processVal: (state) => state.process,
   resultVal: (state) => state.clickVal,
   recordVal: (state) => state.record,

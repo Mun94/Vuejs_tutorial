@@ -1,20 +1,10 @@
-interface IState {
-    check: boolean;
-}
+import { IState, IMutations, IGetters } from '../../types';
 
-interface IMutations {
-    CHANGE: (state: IState) => boolean;
-}
-
-interface IGetters {
-    checkVal: (state: IState) => boolean
-}
-
-const state: IState = {
+const state: Pick<IState, 'check'> = {
   check: false,
 };
 
-const mutations: IMutations = {
+const mutations: Pick<IMutations, 'CHANGE'> = {
   CHANGE: (state) => {
     state.check = !state.check;
 
@@ -22,7 +12,7 @@ const mutations: IMutations = {
   },
 };
 
-const getters: IGetters = {
+const getters: Pick<IGetters, 'checkVal'> = {
   checkVal: (state) => state.check,
 };
 

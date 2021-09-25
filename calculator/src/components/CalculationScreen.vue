@@ -1,8 +1,14 @@
 <template>
   <div class="screenWrap">
-    <div class="title">계산기</div>
+    <div class="title">
+      계산기
+    </div>
     <div class="recordIcon">
-      <font-awesome-icon icon="clock" class="icon alt" @click="changeScreen" />
+      <font-awesome-icon
+        icon="clock"
+        class="icon alt"
+        @click="changeScreen"
+      />
     </div>
     <div class="process">
       {{ process || "계산 과정" }}
@@ -14,17 +20,19 @@
 </template>
 
 <script lang = 'ts'>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-import { TStore, ICalculationScreen, TProcess, TResult } from "../types";
+import {
+  TStore, ICalculationScreen, TProcess, TResult, TChangeScreen,
+} from '../types';
 
 export default {
-  name: "CalculatorScreen",
+  name: 'CalculatorScreen',
   setup() {
     const store: TStore = useStore();
 
-    const changeScreen = (): void => store.commit("CHANGE");
+    const changeScreen: TChangeScreen = () => store.commit('CHANGE');
 
     const process: TProcess = computed(() => store.getters.processVal);
 
