@@ -6,8 +6,6 @@
 </template>
 
 <script lang = "ts">
-// /* eslint-disable import/no-unresolved */
-// /* eslint-disable import/extensions */
 import {
   defineComponent, computed,
 } from 'vue';

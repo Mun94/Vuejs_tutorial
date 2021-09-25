@@ -4,13 +4,11 @@ import { IButton, IModal } from '..';
 
 export * from './common';
 
-// CalculationScreen.vue
 export type TStore = Store<any>;
 
+// CalculationScreen.vue
 export type TProcess = ComputedRef<string>
-
 export type TResult = ComputedRef<number>
-
 export type TChangeScreen = () => void;
 
 export interface ICalculationScreen {
@@ -30,7 +28,6 @@ interface ICalculatorPadObj {
 }
 
 export type TClickEvent = (val: string, controller: string) => any
-
 export type TCalculatorPadVals = Ref<ICalculatorPadObj[][]>
 export interface ICalculatorPad {
     name: string;
@@ -43,13 +40,9 @@ export interface ICalculatorPad {
 
 // RecordPad.vue
 export type TModalOpen = Ref<boolean>
-
 export type TRecords = Ref<string[] | string>
-
 export type TRecordVal = string[]
-
 export type TRemoveAllRecord = ComputedRef<string>
-
 export type TToggleModal = (val: boolean) => string
 
 export interface IRecordPad {
