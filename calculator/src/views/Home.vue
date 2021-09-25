@@ -11,10 +11,10 @@ import {
 } from 'vue';
 import { useStore, Store } from 'vuex';
 import CalculationScreen from '../components/CalculationScreen.vue';
-import CalculatorPad, { ICalculatorPad } from '../components/CalculatorPad.vue';
+import CalculatorPad from '../components/CalculatorPad.vue';
 import RecordPad, { IRecordPad } from '../components/RecordPad.vue';
 
-import { ICalculationScreen } from '../types';
+import { ICalculationScreen, ICalculatorPad } from '../types';
 
 interface IHome {
   name: string;

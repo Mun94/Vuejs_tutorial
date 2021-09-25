@@ -1,30 +1,16 @@
 <template>
   <div class="CalculatorPadWrap">
-    <table
-      class="tableWrap"
-    >
-      <tr
-        v-for="calculatorPadVal in calculatorPadVals"
-        :key="calculatorPadVal"
-      >
-        <td
-          v-for="valType in calculatorPadVal"
-          :key="valType"
-        >
-          <Button
-            v-if="!valType.type"
-            disabled
-          />
+    <table class="tableWrap">
+      <tr v-for="calculatorPadVal in calculatorPadVals" :key="calculatorPadVal">
+        <td v-for="valType in calculatorPadVal" :key="valType">
+          <Button v-if="!valType.type" disabled />
           <Button
             else
             :button-type="valType.type"
             @click="clickEvent(valType.value, valType.type)"
           >
             <p v-if="valType.otherVal === 'icon'">
-              <font-awesome-icon
-                icon="backspace"
-                class="icon alt"
-              />
+              <font-awesome-icon icon="backspace" class="icon alt" />
             </p>
             <p else>
               {{ valType.value || valType.otherVal }}
@@ -37,57 +23,62 @@
 </template>
 
 <script lang = 'ts'>
-import { ref, Ref } from 'vue';
-import { useStore, Store } from 'vuex';
-import Button from './common/Button.vue';
+import { ref } from "vue";
+import { useStore } from "vuex";
+import Button from "./common/Button.vue";
 
-import { IButton } from '../types';
-
-export interface ICalculatorPad {
-    name: string;
-    setup: () => { clickEvent: any, calculatorPadVals: Ref<{ value: string; type: string; }[][]> };
-    components: { Button: IButton };
-}
+import {
+  ICalculatorPad,
+  TStore,
+  TCalculatorPadVals,
+  TClickEvent,
+} from "../types";
 
 export default {
-  name: 'CalculatorPad',
+  name: "CalculatorPad",
   setup() {
-    const store: Store<any> = useStore();
-    const calculatorPadVals: Ref<{ value: string; type: string; icon?: boolean }[][]> = ref([
+    const store: TStore = useStore();
+    const calculatorPadVals: TCalculatorPadVals = ref([
       [
-        { value: '', type: '' },
-        { value: '', type: 'clearEntry', otherVal: 'CE' },
-        { value: '', type: 'clear', otherVal: 'C' },
-        { value: '', type: 'backspace', otherVal: 'icon' }],
+        { value: "", type: "" },
+        { value: "", type: "clearEntry", otherVal: "CE" },
+        { value: "", type: "clear", otherVal: "C" },
+        { value: "", type: "backspace", otherVal: "icon" },
+      ],
       [
-        { value: '', type: '' },
-        { value: '', type: '' },
-        { value: '', type: '' },
-        { value: '/', type: 'operator' }],
+        { value: "", type: "" },
+        { value: "", type: "" },
+        { value: "", type: "" },
+        { value: "/", type: "operator" },
+      ],
       [
-        { value: '7', type: 'number' },
-        { value: '8', type: 'number' },
-        { value: '9', type: 'number' },
-        { value: '*', type: 'operator' },
-      ], [
-        { value: '4', type: 'number' },
-        { value: '5', type: 'number' },
-        { value: '6', type: 'number' },
-        { value: '-', type: 'operator' },
-      ], [
-        { value: '1', type: 'number' },
-        { value: '2', type: 'number' },
-        { value: '3', type: 'number' },
-        { value: '+', type: 'operator' },
-      ], [
-        { value: '', type: 'plusMinus', otherVal: '+/-' },
-        { value: '0', type: 'number' },
-        { value: '.', type: 'number' },
-        { value: '', type: 'enter', otherVal: '=' },
-      ]]);
+        { value: "7", type: "number" },
+        { value: "8", type: "number" },
+        { value: "9", type: "number" },
+        { value: "*", type: "operator" },
+      ],
+      [
+        { value: "4", type: "number" },
+        { value: "5", type: "number" },
+        { value: "6", type: "number" },
+        { value: "-", type: "operator" },
+      ],
+      [
+        { value: "1", type: "number" },
+        { value: "2", type: "number" },
+        { value: "3", type: "number" },
+        { value: "+", type: "operator" },
+      ],
+      [
+        { value: "", type: "plusMinus", otherVal: "+/-" },
+        { value: "0", type: "number" },
+        { value: ".", type: "number" },
+        { value: "", type: "enter", otherVal: "=" },
+      ],
+    ]);
 
-    const clickEvent = (val: string, controller: string): void => {
-      store.dispatch('cal', { val, controller });
+    const clickEvent: TClickEvent = (val, controller) => {
+      store.dispatch("cal", { val, controller });
     };
 
     return { clickEvent, calculatorPadVals };
@@ -97,31 +88,31 @@ export default {
 </script>
 
 <style scoped>
-    .calculatorPadWrap {
-    width: 500px;
-    height: 100%;
-    }
+.calculatorPadWrap {
+  width: 500px;
+  height: 100%;
+}
 
-    .tableWrap {
-    width: 100%;
-    height: 100%;
+.tableWrap {
+  width: 100%;
+  height: 100%;
 
-    border-collapse: collapse;
-    border-spacing: 0;
-    }
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
-    td {
-    width: 100%;
-    height: 60px;
-    }
+td {
+  width: 100%;
+  height: 60px;
+}
 
-    tr {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+tr {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 
-    width: 100%;
-    }
+  width: 100%;
+}
 </style>
