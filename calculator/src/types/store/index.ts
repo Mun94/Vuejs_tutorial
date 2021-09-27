@@ -5,12 +5,14 @@ export type TArr = Array<TCurrentVal>;
 export type TCallResultRecord = (recordOpt?: string | undefined) => void
 
 export interface IState {
+    // calculationVal.ts
     clickVal : string;
     process : string;
     resultVal: number;
     record : { process: string, result: number | string }[];
     clickStatus: { [key: string]: boolean };
 
+    // changeScreen.ts
     check: boolean
 }
 
@@ -24,6 +26,7 @@ export interface IActions {
 }
 
 export interface IMutations {
+    // calculationVal.ts
     PROCESS: (state: IState, payload: number | string) => string;
     CLICK_VAL: (state: IState, payload: number | string) => string;
     RESULT_AND_RECORD: (state: IState, payload: string) => void;
@@ -31,6 +34,7 @@ export interface IMutations {
     CLEAR_ENTRY: (state: IState) => string;
     REMOVE_ALL_RECORD: (state: IState) => never[];
 
+    // changeScreen.ts
     CHANGE: (state: Pick<IState, 'check'>) => boolean;
 }
 export interface IResult {
@@ -38,9 +42,11 @@ export interface IResult {
     result: number | string;
 }
 export interface IGetters {
+    // calculationVal.ts
     processVal: (state: IState) => string;
     resultVal: (state: IState) => string;
     recordVal: (state: IState) => IResult[];
 
+    // changeScreen.ts
     checkVal: (state: Pick<IState, 'check'>) => boolean
 }

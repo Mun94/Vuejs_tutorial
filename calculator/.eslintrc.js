@@ -33,7 +33,7 @@ module.exports = {
     //   tsx: 'never',
     //   'd.ts': 'never',
     // }],
-    'import/extensions': 'off',
+    'import/extensions': 'off', // 추가
     'no-unused-vars': 'off', // 추가
     'no-param-reassign': 'off', // 추가
     'no-eval': 'off', // 추가,

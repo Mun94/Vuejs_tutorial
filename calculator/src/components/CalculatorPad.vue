@@ -35,7 +35,7 @@
 </template>
 
 <script lang = 'ts'>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import Button from './common/Button.vue';
 
@@ -50,7 +50,7 @@ export default {
   name: 'CalculatorPad',
   setup() {
     const store: TStore = useStore();
-    const calculatorPadVals: TCalculatorPadVals = ref([
+    const calculatorPadVals: TCalculatorPadVals = [
       [
         { value: '', type: '' },
         { value: '', type: 'clearEntry', otherVal: 'CE' },
@@ -87,7 +87,7 @@ export default {
         { value: '.', type: 'number' },
         { value: '', type: 'enter', otherVal: '=' },
       ],
-    ]);
+    ];
 
     const clickEvent: TClickEvent = (val, controller) => {
       store.dispatch('cal', { val, controller });

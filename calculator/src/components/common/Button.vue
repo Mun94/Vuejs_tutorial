@@ -6,10 +6,10 @@
 
 <script lang = 'ts'>
 import {
-  computed, toRefs,
+  computed,
 } from 'vue';
 import {
-  IData, IButton, IToRefs, TBackgroundColor,
+  IData, IButton, TBackgroundColor,
 } from '../../types';
 
 export default {
@@ -20,10 +20,10 @@ export default {
     },
   },
   setup(props: IData) {
-    const { buttonType }: IToRefs = toRefs(props);
+    const { buttonType } = props;
 
     const backgroundColor: TBackgroundColor = computed(() => {
-      const val = ['number', 'plusMinus'].includes(buttonType.value) ? '#111111' : '#343434';
+      const val = ['number', 'plusMinus'].includes(buttonType) ? '#111111' : '#343434';
 
       return val;
     });

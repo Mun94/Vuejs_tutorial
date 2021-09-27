@@ -28,7 +28,7 @@ interface ICalculatorPadObj {
 }
 
 export type TClickEvent = (val: string, controller: string) => any
-export type TCalculatorPadVals = Ref<ICalculatorPadObj[][]>
+export type TCalculatorPadVals = ICalculatorPadObj[][]
 export interface ICalculatorPad {
     name: string;
     setup: () => {

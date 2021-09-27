@@ -1,8 +1,8 @@
 // Button.vue
-import { ComputedRef, ToRefs } from 'vue';
+import { ComputedRef } from 'vue';
 
 export interface IData {
-    [key: string]: unknown
+    [key: string]: any
 }
 
 export type TBackgroundColor = ComputedRef<string>
@@ -12,8 +12,6 @@ export interface IButton {
     props: { [key: string]: { [key: string]: any} };
     setup: (props: IData) => { backgroundColor: TBackgroundColor }
 }
-
-export type IToRefs = ToRefs<any>
 
 // Modal.vue
 export interface IModal {
