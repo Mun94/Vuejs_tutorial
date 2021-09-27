@@ -1,26 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <header>
+      <hgroup class = "my-5">
+        <h1>나의 할일</h1>
+        <em>{{ today }}</em>
+      </hgroup>
+    </header>
+    <todo-list-container/>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  export default {
+  components: { TodoListContainer },
+    name: 'App'
+  };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<script setup>
+  import { inject } from 'vue';
+  import TodoListContainer from './components/TodoListContainer.vue';
+
+  const today = inject('today');
+</script>
+
+<style scoped>
+  hgroup {
+    text-align: center;
+    font-family: "Arial Bold";
+  }
+  hgroup h1 {
+    font-weight: bolder;
+  }
 </style>
