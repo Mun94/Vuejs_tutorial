@@ -10,7 +10,7 @@ const props = defineProps({
     msg: {}
 });
 
-const text: any = '123';
+const text: any = '112323';
 
 const computedMsg = computed(() => props.msg + '!!!')
 </script>

@@ -35,7 +35,7 @@
 </template>
 
 <script lang = 'ts'>
-import { ref, reactive } from 'vue';
+// import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import Button from './common/Button.vue';
 
