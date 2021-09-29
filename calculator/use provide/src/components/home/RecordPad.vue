@@ -26,7 +26,7 @@
     </div>
     <div
       class="remove"
-      @click.once="$emit('removeAllRecord')"
+      @click.once="$emit('clickRemove')"
     >
       <font-awesome-icon
         icon="trash"
@@ -50,7 +50,7 @@ const options = {
       type: Array,
     },
   },
-  emits: ['removeAllRecord'],
+  emits: ['clickRemove'],
 };
 
 export default {

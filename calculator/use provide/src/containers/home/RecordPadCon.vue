@@ -1,36 +1,49 @@
 <template>
-  <RecordPad
-    :records="records"
-    @removeAllRecord="removeAllRecord"
-  />
+  <span>
+    <RecordPad
+      :records="records"
+      @clickRemove="clickRemove"
+    />
+    <Modal
+      :modal-open="modalOpen"
+      @closeModal="closeModal"
+    />
+  </span>
 </template>
 
 <script lang = 'ts'>
 import { inject, ref, computed } from 'vue';
 import RecordPad from '../../components/home/RecordPad.vue';
+import Modal from '../../components/common/Modal.vue';
 
 const options = {
   name: 'RecordPadCon',
-  components: { RecordPad },
+  components: { RecordPad, Modal },
 };
 
 export default {
   ...options,
   setup() {
-    const recordVal = inject<any>('recordVal').value;
-    const test = inject<any>('removeAllRecord');
-    const records: any = ref(
-      recordVal.length > 0 ? [...recordVal].reverse() : []
-    );
+    const modalOpen = ref(false);
+    const records = inject<any>('recordVal');
+    const removeAllRecord = inject<any>('removeAllRecord');
 
-    const removeAllRecord = () => {
-      records.value = [];
-      test();
+    const clickRemove = () => {
+      if (records.value.length === 0) {
+        return;
+      }
 
-      return '';
+      modalOpen.value = true;
+      removeAllRecord();
     };
 
-    return { records, removeAllRecord };
+    const closeModal = (val: any) => {
+      modalOpen.value = val;
+    };
+
+    return {
+      records, clickRemove, closeModal, modalOpen,
+    };
   },
 };
 </script>
