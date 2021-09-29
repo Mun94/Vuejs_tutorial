@@ -17,6 +17,8 @@
 <script lang = "ts">
 import { inject } from 'vue';
 
+import { IModal } from '../../types';
+
 const options = {
   name: 'Modal',
 };
@@ -29,7 +31,7 @@ export default {
 
     return { modalOpen, closeModal };
   },
-};
+} as IModal;
 </script>
 
 <style scoped>

@@ -13,7 +13,7 @@ export default defineComponent({
   components: {
     CalculatorContainer,
   },
-});
+} as any);
 </script>
 
 <style scoped>

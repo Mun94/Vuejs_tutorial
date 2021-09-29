@@ -7,14 +7,23 @@
 
 <script lang = 'ts'>
 import {
-  reactive, toRefs, provide, readonly, computed,
+  reactive, toRefs, provide, readonly, computed, ToRefs,
 } from 'vue';
 import CalculatorPadCon from './CalculatorPadCon.vue';
 import CalculationScreenCon from './CalculationScreenCon.vue';
 import RecordPadCon from './RecordPadCon.vue';
 
 import {
-  IState, IMutations, TCalculationActions, IResult, TArr, TCurrentVal, TCallResultRecord,
+  IState,
+  IMutations,
+  TCalculationActions,
+  IResult,
+  TArr,
+  TCurrentVal,
+  TCallResultRecord,
+  TTogglePad,
+  TToRefs,
+  IIndex,
 } from '../../types';
 
 const options = {
@@ -73,7 +82,7 @@ export default {
         return calculationState.clickVal;
       },
       RESULT_AND_RECORD: (payload) => {
-        const editResultRecord = (result) => {
+        const editResultRecord = (result: string): void => {
           calculationState.resultVal = eval(result);
           calculationState.record = calculationState.record.concat({
             process: calculationState.process = result,
@@ -323,13 +332,13 @@ export default {
       }
     };
 
-    const togglePad = computed(() => {
+    const togglePad: TTogglePad = computed(() => {
       const val = changeComponentState.check ? RecordPadCon : CalculatorPadCon;
 
       return val;
     });
 
-    const { process, clickVal, record } = toRefs(calculationState);
+    const { process, clickVal, record }: TToRefs = toRefs(calculationState);
     provide('processVal', readonly(process));
     provide('resultVal', readonly(clickVal));
     provide('recordVal', readonly(record));
@@ -340,5 +349,5 @@ export default {
 
     return { togglePad };
   },
-};
+} as IIndex;
 </script>

@@ -21,7 +21,9 @@
 
 <script lang = 'ts'>
 import { inject } from 'vue';
-import { TProcess, TResult } from '../../types';
+import {
+  TProcess, TResult, TChangeComponent, ICalculationScreen,
+} from '../../types';
 
 const options = {
   name: 'CalculationScreen',
@@ -33,12 +35,11 @@ export default {
     const process: TProcess = inject('processVal');
     const result: TResult = inject('resultVal');
 
-    const changeComponent = inject('changeComponent');
+    const changeComponent: TChangeComponent = inject('changeComponent');
 
     return { process, result, changeComponent };
   },
-};
-
+} as ICalculationScreen;
 </script>
 
 <style scoped>

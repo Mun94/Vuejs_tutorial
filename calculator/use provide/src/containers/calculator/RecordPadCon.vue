@@ -9,6 +9,10 @@
 import { inject, ref, provide } from 'vue';
 import RecordPad from '../../components/calculator/RecordPad.vue';
 
+import {
+  TModalOpen, TRecords, TClickRemove, TCloseModal, IRecordPadCon, TRemoveAllRecord,
+} from '../../types';
+
 const options = {
   name: 'RecordPadCon',
   components: { RecordPad },
@@ -17,20 +21,20 @@ const options = {
 export default {
   ...options,
   setup() {
-    const modalOpen = ref(false);
-    const records = inject<any>('recordVal');
-    const removeAllRecord = inject<any>('removeAllRecord');
+    const modalOpen: TModalOpen = ref(false);
+    const records: TRecords = inject('recordVal');
+    const removeAllRecord: TRemoveAllRecord = inject('removeAllRecord');
 
-    const clickRemove = () => {
-      if (records.value.length === 0) {
+    const clickRemove: TClickRemove = () => {
+      if (records && records.value.length === 0) {
         return;
       }
 
       modalOpen.value = true;
-      removeAllRecord();
+      removeAllRecord && removeAllRecord();
     };
 
-    const closeModal = (val: any) => {
+    const closeModal: TCloseModal = (val) => {
       modalOpen.value = val;
     };
 
@@ -39,5 +43,5 @@ export default {
 
     return { records, clickRemove };
   },
-};
+} as IRecordPadCon;
 </script>

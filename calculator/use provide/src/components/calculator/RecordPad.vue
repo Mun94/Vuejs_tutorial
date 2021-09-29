@@ -40,6 +40,8 @@
 <script lang = 'ts'>
 import Modal from '../common/Modal.vue';
 
+import { IRecordPad } from '../../types';
+
 const options = {
   name: 'RecordPad',
   props: {
@@ -52,7 +54,7 @@ const options = {
 
 export default {
   ...options,
-};
+} as IRecordPad;
 </script>
 
 <style scoped>
