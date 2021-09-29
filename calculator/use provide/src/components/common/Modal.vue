@@ -6,7 +6,7 @@
     >
       <div>
         삭제 되었습니다.
-        <button @click="$emit('closeModal', false)">
+        <button @click="closeModal(false)">
           닫기
         </button>
       </div>
@@ -15,19 +15,20 @@
 </template>
 
 <script lang = "ts">
+import { inject } from 'vue';
+
 const options = {
   name: 'Modal',
-  emits: ['closeModal'],
-  props: {
-    modalOpen: {
-      type: Boolean,
-      required: true,
-    },
-  },
 };
 
 export default {
   ...options,
+  setup() {
+    const modalOpen = inject('modalOpen');
+    const closeModal = inject('closeModal');
+
+    return { modalOpen, closeModal };
+  },
 };
 </script>
 

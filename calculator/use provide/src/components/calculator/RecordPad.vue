@@ -6,7 +6,7 @@
         class="existRecords"
       >
         <div
-          v-for="record in records"
+          v-for="record in [...records].reverse()"
           :key="record"
         >
           <div class="process">
@@ -33,14 +33,13 @@
         class="icon alt"
       />
     </div>
-    <!-- <Modal
-      :modal-open="modalOpen"
-      @toggle-modal="toggleModal"
-    /> -->
+    <Modal />
   </div>
 </template>
 
 <script lang = 'ts'>
+import Modal from '../common/Modal.vue';
+
 const options = {
   name: 'RecordPad',
   props: {
@@ -48,7 +47,7 @@ const options = {
       type: Array,
     },
   },
-  emits: ['clickRemove'],
+  components: { Modal },
 };
 
 export default {

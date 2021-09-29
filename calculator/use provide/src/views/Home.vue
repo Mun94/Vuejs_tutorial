@@ -1,47 +1,24 @@
 <template>
-
   <div class="home">
-
-    <HomeContainer />
-
+    <CalculatorContainer />
   </div>
-
 </template>
 
-
-
 <script lang="ts">
-
 import { defineComponent } from 'vue';
-
-import HomeContainer from '../containers/home/HomeContainer.vue';
-
-
+import CalculatorContainer from '../containers/calculator/index.vue';
 
 export default defineComponent({
-
   name: 'Home',
-
   components: {
-
-    HomeContainer,
-
+    CalculatorContainer,
   },
-
 });
-
 </script>
 
-
-
 <style scoped>
-
   .home {
-
     background: #565656;
-
     width: 400px;
-
   }
-
-</style>>
+</style>

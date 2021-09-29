@@ -18,14 +18,14 @@ import {
 } from '../../types';
 
 const options = {
-  name: 'HomeContainer',
+  name: 'CalculatorContainer',
   components: { CalculatorPadCon, CalculationScreenCon },
 };
 
 export default {
   ...options,
   setup() {
-    const state: Omit<IState, 'check'> = reactive({
+    const calculationState: Omit<IState, 'check'> = reactive({
       clickVal: '',
       process: '',
 
@@ -46,7 +46,7 @@ export default {
       },
     });
 
-    const changeScreenState: Pick<IState, 'check'> = reactive({
+    const changeComponentState: Pick<IState, 'check'> = reactive({
       check: false,
     });
 
@@ -59,68 +59,61 @@ export default {
       clickCENumAfterOpe,
       checkCE,
       checkInfinityAndNaN,
-    } = state.clickStatus;
+    } = calculationState.clickStatus;
 
-    const mutations: Omit<IMutations, 'CHANGE'> = {
+    const calculationMutations: Omit<IMutations, 'CHANGE'> = {
       PROCESS: (payload) => {
-        state.process += state.clickVal + payload;
+        calculationState.process += calculationState.clickVal + payload;
 
-        return state.process;
+        return calculationState.process;
       },
       CLICK_VAL: (payload) => {
-        state.clickVal += payload;
+        calculationState.clickVal += payload;
 
-        return state.clickVal;
+        return calculationState.clickVal;
       },
       RESULT_AND_RECORD: (payload) => {
+        const editResultRecord = (result) => {
+          calculationState.resultVal = eval(result);
+          calculationState.record = calculationState.record.concat({
+            process: calculationState.process = result,
+            result: calculationState.resultVal,
+          } as IResult);
+        };
+
         switch (payload) {
           case 'addClickValFirst': {
-            const sum = `${state.clickVal}${state.process}`;
+            const addClickValFirst = `${calculationState.clickVal}${calculationState.process}`;
 
-            state.resultVal = eval(sum);
-            state.record = state.record.concat({
-              process: state.process = sum,
-              result: state.resultVal,
-            } as IResult);
+            editResultRecord(addClickValFirst);
             break;
           } case 'addZeroFirst': {
-            const sum2 = `0+${state.process}${state.clickVal}`;
+            const addZeroFirst = `0+${calculationState.process}${calculationState.clickVal}`;
 
-            state.resultVal = eval(sum2);
-            state.record = state.record.concat({
-              process: state.process = sum2,
-              result: state.resultVal,
-            } as IResult);
+            editResultRecord(addZeroFirst);
             break;
           } case 'addProcessFirst': {
             clickCENumAfterOpe = false;
 
-            const sum3 = `${state.process}${state.clickVal}`;
-            state.resultVal = eval(sum3);
-            state.record = state.record.concat({
-              process: state.process = sum3,
-              result: state.resultVal,
-            } as IResult);
+            const addProcessFirst = `${calculationState.process}${calculationState.clickVal}`;
+
+            editResultRecord(addProcessFirst);
             break;
           } default: // 숫자만 클릭
-            state.resultVal = eval(state.process);
-            state.record = state.record.concat({
-              process: state.process,
-              result: state.resultVal,
-            } as IResult);
+            editResultRecord(calculationState.process);
             break;
         }
 
-        if (!Number.isFinite(state.resultVal)) { // 결과 값이 무한인지 확인
+        if (!Number.isFinite(calculationState.resultVal)) { // 결과 값이 무한인지 확인
           checkInfinityAndNaN = true;
 
-          state.resultVal = 0;
+          calculationState.resultVal = 0;
         }
       },
       CLEAR: () => {
-        state.clickVal = '';
-        state.process = '';
-        state.resultVal = 0;
+        calculationState.clickVal = '';
+        calculationState.process = '';
+        calculationState.resultVal = 0;
 
         clickNum = false;
       },
@@ -129,7 +122,7 @@ export default {
 
         if (!checkCE) { // CE가 여러번 눌리지 않게
           checkCE = true;
-          const arr: TArr = state.process.split('').reverse().map((val: string, i: number): TCurrentVal => {
+          const arr: TArr = calculationState.process.split('').reverse().map((val: string, i: number): TCurrentVal => {
             if (Number.isNaN(Number(val)) && i !== 0) {
               filterVal = false;
             }
@@ -137,28 +130,26 @@ export default {
             return { val, filterVal };
           });
 
-          state.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
+          calculationState.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
             ? be.concat(cur.val) : be.concat('')),
           []).reverse().join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
 
-          return state.process;
+          return calculationState.process;
         }
 
-        state.clickVal = '';
-
-        return state.clickVal;
+        return '';
       },
       REMOVE_ALL_RECORD: () => {
-        state.record = [];
+        calculationState.record = [];
 
         return [];
       },
     };
-    const changeScreenMutaions: Pick<IMutations, 'CHANGE'> = {
+    const changeComponentMutaions: Pick<IMutations, 'CHANGE'> = {
       CHANGE: () => {
-        changeScreenState.check = !changeScreenState.check;
+        changeComponentState.check = !changeComponentState.check;
 
-        return changeScreenState.check;
+        return changeComponentState.check;
       },
     };
 
@@ -167,53 +158,54 @@ export default {
 
       switch (controller) {
         case 'operator': {
-          if (state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
+          if (calculationState.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
             return;
           }
 
           const callProcess = (): void => {
-            state.process = '';
+            calculationState.process = '';
 
-            mutations.PROCESS(val);
-            state.resultVal = 0;
+            calculationMutations.PROCESS(val);
+            calculationState.resultVal = 0;
           };
 
           if (clickNum) { // 숫자 클릭 후 연산자 사용 가능, 연산자 클릭 후 또 연산자 클릭 못 하게
             if (clickClearEntry) { // CE 눌렀을 때
               callProcess();
 
-              state.clickVal = '';
+              calculationState.clickVal = '';
 
               clickClearEntry = false;
             } else {
-              if (state.resultVal && !clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+              if (calculationState.resultVal && !clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
                 callProcess();
-              } else if (state.resultVal && clickPlusMinus) { // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
+              } else if (calculationState.resultVal && clickPlusMinus) {
+                // 결과 값이 있으면서 '+/-'버튼을 클릭했을 때
                 callProcess();
 
                 clickPlusMinus = false;
               } else {
-                if (state.process.split('-')[0] === state.process.split('-')[1] || state.process.includes('*0')) { // 이전 계산 결과값이 0 이면
-                  state.process = '';
+                if (calculationState.process.split('-')[0] === calculationState.process.split('-')[1] || calculationState.process.includes('*0')) { // 이전 계산 결과값이 0 이면
+                  calculationState.process = '';
                 }
 
-                if (state.process.includes('0*') || state.process.includes('0/')) { // 계산 결과값이 없거나 계산식에 0*, 0/ 이 있으면
-                  state.process = '';
+                if (calculationState.process.includes('0*') || calculationState.process.includes('0/')) { // 계산 결과값이 없거나 계산식에 0*, 0/ 이 있으면
+                  calculationState.process = '';
 
-                  state.clickVal = '0';
+                  calculationState.clickVal = '0';
                 }
 
                 if (checkInfinityAndNaN) { // 값이 무한인지 확인
-                  state.process = '';
+                  calculationState.process = '';
 
                   checkInfinityAndNaN = false;
                 }
 
-                mutations.PROCESS(val);
-                state.resultVal = 0;
+                calculationMutations.PROCESS(val);
+                calculationState.resultVal = 0;
               }
 
-              state.clickVal = '';
+              calculationState.clickVal = '';
               clickNum = false;
             }
 
@@ -221,41 +213,41 @@ export default {
           }
           break;
         } case 'number':
-          if (val === '.' && (state.clickVal.includes('.') && !clickEnter)) {
+          if (val === '.' && (calculationState.clickVal.includes('.') && !clickEnter)) {
             return;
           } // '.' 을 여러번 클릭해도 한번만 입력 되게
 
-          if (state.clickVal.slice(0, 1) === '0') {
-            state.clickVal = '';
+          if (calculationState.clickVal.slice(0, 1) === '0') {
+            calculationState.clickVal = '';
           } // 첫 자리 수가 0 일때 0이 여러번 클릭 되지 않게
 
           if (clickEnter) {
-            state.clickVal = '';
+            calculationState.clickVal = '';
 
             clickEnter = false;
           }
 
           if (clickClearEntry) { // 다음 숫자 누르기 이전에 숫자, 연산자 클릭 후 ce 버튼을 눌렀을 때
-            if (Number(state.process.slice(0, 1))) {
+            if (Number(calculationState.process.slice(0, 1))) {
               clickCENumAfterOpe = true;
             }
           }
 
           if (checkInfinityAndNaN) { // 이전 계산 값이 무한이면
-            state.process = '';
+            calculationState.process = '';
             checkInfinityAndNaN = false;
           }
 
           clickNum = true;
-          mutations.CLICK_VAL(val);
+          calculationMutations.CLICK_VAL(val);
           break;
         case 'plusMinus': {
-          if (state.clickVal.includes('-')) { // '+ / -' 변환
-            state.clickVal = state.clickVal.slice(1);
-            state.resultVal = Math.abs(state.resultVal);
+          if (calculationState.clickVal.includes('-')) { // '+ / -' 변환
+            calculationState.clickVal = calculationState.clickVal.slice(1);
+            calculationState.resultVal = Math.abs(calculationState.resultVal);
             clickPlusMinus = false;
           } else {
-            state.clickVal = `-${state.clickVal}`;
+            calculationState.clickVal = `-${calculationState.clickVal}`;
             clickPlusMinus = true;
           }
           break;
@@ -265,16 +257,16 @@ export default {
 
           const callResultRecord: TCallResultRecord = (recordOpt) => {
             if (recordOpt) {
-              mutations.RESULT_AND_RECORD(recordOpt);
+              calculationMutations.RESULT_AND_RECORD(recordOpt);
             } else {
-              mutations.RESULT_AND_RECORD();
+              calculationMutations.RESULT_AND_RECORD();
             }
           };
 
           if (clickClearEntry) { // CE를 누른 상태
             if (clickCENumAfterOpe) { // 숫자 클릭 -> 연산자 -> CE -> 숫자 -> 엔터
               callResultRecord('addProcessFirst');
-            } else if (!state.process) { // 숫자 클릭 -> CE -> 숫자 -> 엔터
+            } else if (!calculationState.process) { // 숫자 클릭 -> CE -> 숫자 -> 엔터
               callResultRecord('addZeroFirst');
             } else { // 숫자 클릭 -> 연산자 -> 숫자 -> 엔터 -> CE -> 숫자 -> 엔터
               callResultRecord('addClickValFirst');
@@ -292,50 +284,59 @@ export default {
             }
 
             if (clickNum && !clickEnter && !clickOpe) { // 숫자만 클릭 -> 엔터
-              state.process = `${state.resultVal} + ${Number(state.clickVal)}`;
+              calculationState.process = `${calculationState.resultVal} + ${Number(calculationState.clickVal)}`;
               callResultRecord();
 
               clickEnter = true;
             }
           }
-          state.clickVal = `${state.resultVal}`;
+          calculationState.clickVal = `${calculationState.resultVal}`;
           break;
         } case 'backspace': {
           if (clickNum && !clickEnter) {
             // 숫자를 누르고 엔터 키를 누르지 않았을 때 (숫자 키를 누르면 clickEnter 초기화 됨 이렇게 안 하면 계산된 값이 지워질 수 있음)
-            state.clickVal = state.clickVal.slice(0, -1);
+            calculationState.clickVal = calculationState.clickVal.slice(0, -1);
           }
           break;
         } case 'clear': {
-          mutations.CLEAR(); // 초기화
+          calculationMutations.CLEAR(); // 초기화
           break;
         } case 'clearEntry': {
           clickClearEntry = true;
-          state.clickVal = '';
 
-          mutations.CLEAR_ENTRY();
+          if (checkInfinityAndNaN) { // 값이 무한인지 확인
+            calculationState.process = '';
+
+            checkInfinityAndNaN = false;
+          }
+
+          if (calculationState.clickVal && !clickEnter) {
+            calculationState.clickVal = '';
+          } else {
+            calculationMutations.CLEAR_ENTRY();
+          }
+
           break;
         }
         default:
           break;
       }
     };
+
     const togglePad = computed(() => {
-      const val = changeScreenState.check ? RecordPadCon : CalculatorPadCon;
+      const val = changeComponentState.check ? RecordPadCon : CalculatorPadCon;
 
       return val;
     });
 
-    const { process, clickVal, record } = toRefs(state);
+    const { process, clickVal, record } = toRefs(calculationState);
     provide('processVal', readonly(process));
     provide('resultVal', readonly(clickVal));
     provide('recordVal', readonly(record));
-    provide('removeAllRecord', mutations.REMOVE_ALL_RECORD);
+    provide('removeAllRecord', calculationMutations.REMOVE_ALL_RECORD);
     provide('calculationActions', calculationActions);
 
-    // const { check } = toRefs(changeScreenState);
-    // provide('changeScreenState', readonly(check));
-    provide('changeScreen', changeScreenMutaions.CHANGE);
+    provide('changeComponent', changeComponentMutaions.CHANGE);
 
     return { togglePad };
   },

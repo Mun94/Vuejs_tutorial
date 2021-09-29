@@ -3,7 +3,7 @@
 </template>
 
 <script lang = 'ts'>
-import CalculatorPad from '../../components/home/CalculatorPad.vue';
+import CalculatorPad from '../../components/calculator/CalculatorPad.vue';
 import { TCalculatorPadVals, ICalculatorPadCon } from '../../types';
 
 const options = {

@@ -3,7 +3,7 @@
 </template>
 
 <script lang = "ts">
-import CalculationScreen from '../../components/home/CalculationScreen.vue';
+import CalculationScreen from '../../components/calculator/CalculationScreen.vue';
 
 const options = {
   name: 'CalculationScreenCon',

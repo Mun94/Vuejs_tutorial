@@ -1,24 +1,17 @@
 <template>
-  <span>
-    <RecordPad
-      :records="records"
-      @clickRemove="clickRemove"
-    />
-    <Modal
-      :modal-open="modalOpen"
-      @closeModal="closeModal"
-    />
-  </span>
+  <RecordPad
+    :records="records"
+    @clickRemove="clickRemove"
+  />
 </template>
 
 <script lang = 'ts'>
-import { inject, ref, computed } from 'vue';
-import RecordPad from '../../components/home/RecordPad.vue';
-import Modal from '../../components/common/Modal.vue';
+import { inject, ref, provide } from 'vue';
+import RecordPad from '../../components/calculator/RecordPad.vue';
 
 const options = {
   name: 'RecordPadCon',
-  components: { RecordPad, Modal },
+  components: { RecordPad },
 };
 
 export default {
@@ -41,9 +34,10 @@ export default {
       modalOpen.value = val;
     };
 
-    return {
-      records, clickRemove, closeModal, modalOpen,
-    };
+    provide('modalOpen', modalOpen);
+    provide('closeModal', closeModal);
+
+    return { records, clickRemove };
   },
 };
 </script>

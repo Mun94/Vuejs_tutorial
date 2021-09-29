@@ -6,8 +6,8 @@
         :key="calculatorPadVal"
       >
         <td
-          v-for="valType in calculatorPadVal"
-          :key="valType"
+          v-for="(valType, idx) in calculatorPadVal"
+          :key="idx"
         >
           <Button
             v-if="!valType.type"

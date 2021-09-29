@@ -7,7 +7,7 @@
       <font-awesome-icon
         icon="clock"
         class="icon alt"
-        @click="changeScreen"
+        @click="changeComponent"
       />
     </div>
     <div class="process">
@@ -33,11 +33,9 @@ export default {
     const process: TProcess = inject('processVal');
     const result: TResult = inject('resultVal');
 
-    const changeScreen = inject('changeScreen');
+    const changeComponent = inject('changeComponent');
 
-    console.log('changeScreen', changeScreen);
-
-    return { process, result, changeScreen };
+    return { process, result, changeComponent };
   },
 };
 
