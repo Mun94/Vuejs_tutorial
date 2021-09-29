@@ -35,27 +35,29 @@
 </template>
 
 <script lang = 'ts'>
-    import { inject } from 'vue';
-    import Button from '../common/Button.vue';
+import { inject } from 'vue';
+import Button from '../common/Button.vue';
 
-    const options = {
-        name: 'CalculatorPad',
-        props: {
-            calculatorPadVals: {
-                type: Object
-            }
-        },
-        components: { Button }
-    };
+import { ICalculatorPad } from '../../types';
 
-    export default {
-        ...options,
-        setup() {
-            const calculationActions = inject('calculationActions');
+const options = {
+  name: 'CalculatorPad',
+  props: {
+    calculatorPadVals: {
+      type: Object,
+    },
+  },
+  components: { Button },
+};
 
-            return { calculationActions }
-        }
-    }
+export default {
+  ...options,
+  setup() {
+    const calculationActions = inject('calculationActions');
+
+    return { calculationActions };
+  },
+} as ICalculatorPad;
 </script>
 
 <style scoped>
