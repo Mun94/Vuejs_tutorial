@@ -22,7 +22,7 @@
 <script lang = 'ts'>
 import { inject } from 'vue';
 import {
-  TProcess, TResult, TChangeComponent, ICalculationScreen,
+  ICalculationScreen,
 } from '../../types';
 
 const options = {
@@ -32,10 +32,10 @@ const options = {
 export default {
   ...options,
   setup() {
-    const process: TProcess = inject('processVal');
-    const result: TResult = inject('resultVal');
+    const process = inject('processVal');
+    const result = inject('resultVal');
 
-    const changeComponent: TChangeComponent = inject('changeComponent');
+    const changeComponent = inject('changeComponent');
 
     return { process, result, changeComponent };
   },

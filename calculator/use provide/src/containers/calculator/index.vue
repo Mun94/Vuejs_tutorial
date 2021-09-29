@@ -7,7 +7,7 @@
 
 <script lang = 'ts'>
 import {
-  reactive, toRefs, provide, readonly, computed, ToRefs,
+  reactive, toRefs, provide, readonly, computed,
 } from 'vue';
 import CalculatorPadCon from './CalculatorPadCon.vue';
 import CalculationScreenCon from './CalculationScreenCon.vue';
@@ -95,11 +95,13 @@ export default {
             const addClickValFirst = `${calculationState.clickVal}${calculationState.process}`;
 
             editResultRecord(addClickValFirst);
+
             break;
           } case 'addZeroFirst': {
             const addZeroFirst = `0+${calculationState.process}${calculationState.clickVal}`;
 
             editResultRecord(addZeroFirst);
+
             break;
           } case 'addProcessFirst': {
             clickCENumAfterOpe = false;
@@ -107,9 +109,11 @@ export default {
             const addProcessFirst = `${calculationState.process}${calculationState.clickVal}`;
 
             editResultRecord(addProcessFirst);
+
             break;
           } default: // 숫자만 클릭
             editResultRecord(calculationState.process);
+
             break;
         }
 
@@ -131,17 +135,23 @@ export default {
 
         if (!checkCE) { // CE가 여러번 눌리지 않게
           checkCE = true;
-          const arr: TArr = calculationState.process.split('').reverse().map((val: string, i: number): TCurrentVal => {
-            if (Number.isNaN(Number(val)) && i !== 0) {
-              filterVal = false;
-            }
+          const arr: TArr = calculationState
+            .process.split('')
+            .reverse()
+            .map((val: string, i: number): TCurrentVal => {
+              if (Number.isNaN(Number(val)) && i !== 0) {
+                filterVal = false;
+              }
 
-            return { val, filterVal };
-          });
+              return { val, filterVal };
+            });
 
-          calculationState.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
-            ? be.concat(cur.val) : be.concat('')),
-          []).reverse().join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
+          calculationState.process = arr
+            .reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
+              ? be.concat(cur.val) : be.concat('')),
+            [])
+            .reverse()
+            .join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
 
           return calculationState.process;
         }
@@ -154,6 +164,7 @@ export default {
         return [];
       },
     };
+
     const changeComponentMutaions: Pick<IMutations, 'CHANGE'> = {
       CHANGE: () => {
         changeComponentState.check = !changeComponentState.check;
