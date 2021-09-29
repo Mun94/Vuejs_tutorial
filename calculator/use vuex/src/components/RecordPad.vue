@@ -26,7 +26,7 @@
     </div>
     <div
       class="remove"
-      @click="removeAllRecord"
+      @click.once="removeAllRecord"
     >
       <font-awesome-icon
         icon="trash"
@@ -62,13 +62,15 @@ export default {
       recordVal.length > 0 ? [...recordVal].reverse() : ''
     );
 
-    const removeAllRecord: TRemoveAllRecord = computed(() => {
+    const removeAllRecord: TRemoveAllRecord = () => {
+      if (recordVal.length === 0) {
+        return;
+      }
+
       modalOpen.value = true;
       records.value = '';
       store.commit('REMOVE_ALL_RECORD');
-
-      return '';
-    });
+    };
 
     const toggleModal: TToggleModal = (val) => {
       modalOpen.value = val;

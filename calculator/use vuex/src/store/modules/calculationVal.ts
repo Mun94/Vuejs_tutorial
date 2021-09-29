@@ -1,14 +1,3 @@
-// /* eslint-disable implicit-arrow-linebreak */
-// /* eslint-disable no-restricted-globals */
-// /* eslint-disable no-eval */
-// /* eslint-disable no-return-assign */
-// /* eslint-disable consistent-return */
-// /* eslint-disable no-case-declarations */
-// /* eslint-disable default-case */
-// /* eslint-disable no-shadow */
-// /* eslint-disable max-len */
-// /* eslint-disable no-use-before-define */
-// /* eslint-disable no-unused-vars */
 import {
   IState, IActions, IMutations, IResult, IGetters, TCurrentVal, TArr, TCallResultRecord,
 } from '../../types';
@@ -132,6 +121,7 @@ const actions: IActions = {
 
         clickNum = true;
         commit('CLICK_VAL', val);
+
         break;
       } case 'plusMinus': {
         if (state.clickVal.includes('-')) { // '+ / -' 변환
@@ -142,6 +132,7 @@ const actions: IActions = {
           state.clickVal = `-${state.clickVal}`;
           clickPlusMinus = true;
         }
+
         break;
       } case 'enter': {
         checkCE = false;
@@ -182,24 +173,36 @@ const actions: IActions = {
           }
         }
         state.clickVal = `${state.resultVal}`;
+
         break;
       } case 'backspace': {
         if (clickNum && !clickEnter) {
           // 숫자를 누르고 엔터 키를 누르지 않았을 때 (숫자 키를 누르면 clickEnter 초기화 됨 이렇게 안 하면 계산된 값이 지워질 수 있음)
           state.clickVal = state.clickVal.slice(0, -1);
         }
+
         break;
       } case 'clear': {
         commit('CLEAR'); // 초기화
+
         break;
       } case 'clearEntry': {
         clickClearEntry = true;
-        state.clickVal = '';
 
-        commit('CLEAR_ENTRY');
+        if (checkInfinityAndNaN) { // 값이 무한인지 확인
+          state.process = '';
+          checkInfinityAndNaN = false;
+        }
+        if (state.clickVal && !clickEnter) {
+          state.clickVal = '';
+        } else {
+          commit('CLEAR_ENTRY');
+        }
+
         break;
       } default: {
-        break; }
+        break;
+      }
     }
   },
 };
@@ -216,42 +219,40 @@ const mutations: Omit<IMutations, 'CHANGE'> = {
     return state.clickVal;
   },
   RESULT_AND_RECORD: (state, payload) => {
+    const ResultRecord = (result: string): void => {
+      state.resultVal = eval(result);
+      state.record = state.record.concat({
+        process: state.process = result,
+        result: state.resultVal,
+      } as IResult);
+    };
+
     switch (payload) {
       case 'addClickValFirst': {
-        const sum = `${state.clickVal}${state.process}`;
+        const addClickValFirst = `${state.clickVal}${state.process}`;
 
-        state.resultVal = eval(sum);
-        state.record = state.record.concat({
-          process: state.process = sum,
-          result: state.resultVal,
-        } as IResult);
+        ResultRecord(addClickValFirst);
+
         break;
       } case 'addZeroFirst': {
-        const sum2 = `0+${state.process}${state.clickVal}`;
+        const addZeroFirst = `0+${state.process}${state.clickVal}`;
 
-        state.resultVal = eval(sum2);
-        state.record = state.record.concat({
-          process: state.process = sum2,
-          result: state.resultVal,
-        } as IResult);
+        ResultRecord(addZeroFirst);
+
         break;
       } case 'addProcessFirst': {
         clickCENumAfterOpe = false;
 
-        const sum3 = `${state.process}${state.clickVal}`;
-        state.resultVal = eval(sum3);
-        state.record = state.record.concat({
-          process: state.process = sum3,
-          result: state.resultVal,
-        } as IResult);
+        const addProcessFirst = `${state.process}${state.clickVal}`;
+
+        ResultRecord(addProcessFirst);
+
         break;
       } default: { // 숫자만 클릭
-        state.resultVal = eval(state.process);
-        state.record = state.record.concat({
-          process: state.process,
-          result: state.resultVal,
-        } as IResult);
-        break; }
+        ResultRecord(state.process);
+
+        break;
+      }
     }
 
     if (!Number.isFinite(state.resultVal)) { // 결과 값이 무한인지 확인
@@ -272,17 +273,24 @@ const mutations: Omit<IMutations, 'CHANGE'> = {
 
     if (!checkCE) { // CE가 여러번 눌리지 않게
       checkCE = true;
-      const arr: TArr = state.process.split('').reverse().map((val: string, i: number): TCurrentVal => {
-        if (Number.isNaN(Number(val)) && i !== 0) {
-          filterVal = false;
-        }
+      const arr: TArr = state
+        .process
+        .split('')
+        .reverse()
+        .map((val: string, i: number): TCurrentVal => {
+          if (Number.isNaN(Number(val)) && i !== 0) {
+            filterVal = false;
+          }
 
-        return { val, filterVal };
-      });
+          return { val, filterVal };
+        });
 
-      state.process = arr.reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
-        ? be.concat(cur.val) : be.concat('')),
-      []).reverse().join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
+      state.process = arr
+        .reduce((be: string[], cur: TCurrentVal, i: number): string[] => (cur.filterVal || (arr[i - 1].filterVal || arr[i - 1].val === '.')
+          ? be.concat(cur.val) : be.concat('')),
+        [])
+        .reverse()
+        .join(''); // 가장 최근 입력한 값만 남기고 모두 삭제
 
       return state.process;
     }

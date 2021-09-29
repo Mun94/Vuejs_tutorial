@@ -82,7 +82,7 @@ export default {
         return calculationState.clickVal;
       },
       RESULT_AND_RECORD: (payload) => {
-        const editResultRecord = (result: string): void => {
+        const ResultRecord = (result: string): void => {
           calculationState.resultVal = eval(result);
           calculationState.record = calculationState.record.concat({
             process: calculationState.process = result,
@@ -94,13 +94,13 @@ export default {
           case 'addClickValFirst': {
             const addClickValFirst = `${calculationState.clickVal}${calculationState.process}`;
 
-            editResultRecord(addClickValFirst);
+            ResultRecord(addClickValFirst);
 
             break;
           } case 'addZeroFirst': {
             const addZeroFirst = `0+${calculationState.process}${calculationState.clickVal}`;
 
-            editResultRecord(addZeroFirst);
+            ResultRecord(addZeroFirst);
 
             break;
           } case 'addProcessFirst': {
@@ -108,11 +108,11 @@ export default {
 
             const addProcessFirst = `${calculationState.process}${calculationState.clickVal}`;
 
-            editResultRecord(addProcessFirst);
+            ResultRecord(addProcessFirst);
 
             break;
           } default: // 숫자만 클릭
-            editResultRecord(calculationState.process);
+            ResultRecord(calculationState.process);
 
             break;
         }

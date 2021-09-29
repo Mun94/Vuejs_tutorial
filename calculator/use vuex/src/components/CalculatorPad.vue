@@ -2,12 +2,12 @@
   <div class="CalculatorPadWrap">
     <table class="tableWrap">
       <tr
-        v-for="calculatorPadVal in calculatorPadVals"
-        :key="calculatorPadVal"
+        v-for="(calculatorPadVal, idx) in calculatorPadVals"
+        :key="idx"
       >
         <td
-          v-for="valType in calculatorPadVal"
-          :key="valType"
+          v-for="(valType, i) in calculatorPadVal"
+          :key="i"
         >
           <Button
             v-if="!valType.type"

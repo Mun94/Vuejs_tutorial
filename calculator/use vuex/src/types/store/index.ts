@@ -1,8 +1,6 @@
 export type TCurrentVal = { val: string, filterVal: boolean };
-
 export type TArr = Array<TCurrentVal>;
-
-export type TCallResultRecord = (recordOpt?: string | undefined) => void
+export type TCallResultRecord = (recordOpt?: string | undefined) => void;
 
 export interface IState {
     // calculationVal.ts
@@ -13,7 +11,7 @@ export interface IState {
     clickStatus: { [key: string]: boolean };
 
     // changeScreen.ts
-    check: boolean
+    check: boolean;
 }
 
 export interface IActions {
@@ -22,7 +20,7 @@ export interface IActions {
             { commit: (key: string, val?: number | string) => void, state: IState },
         payload:
             { val: string, controller: string }
-    ) => void
+    ) => void;
 }
 
 export interface IMutations {
@@ -48,5 +46,5 @@ export interface IGetters {
     recordVal: (state: IState) => IResult[];
 
     // changeScreen.ts
-    checkVal: (state: Pick<IState, 'check'>) => boolean
+    checkVal: (state: Pick<IState, 'check'>) => boolean;
 }
