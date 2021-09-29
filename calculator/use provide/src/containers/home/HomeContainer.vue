@@ -7,7 +7,7 @@
 
 <script lang = 'ts'>
 import {
-  reactive, toRefs, provide, readonly, ref, computed,
+  reactive, toRefs, provide, readonly, computed,
 } from 'vue';
 import CalculatorPadCon from './CalculatorPadCon.vue';
 import CalculationScreenCon from './CalculationScreenCon.vue';
@@ -74,7 +74,7 @@ export default {
       },
       RESULT_AND_RECORD: (payload) => {
         switch (payload) {
-          case 'addClickValFirst':
+          case 'addClickValFirst': {
             const sum = `${state.clickVal}${state.process}`;
 
             state.resultVal = eval(sum);
@@ -83,7 +83,7 @@ export default {
               result: state.resultVal,
             } as IResult);
             break;
-          case 'addZeroFirst':
+          } case 'addZeroFirst': {
             const sum2 = `0+${state.process}${state.clickVal}`;
 
             state.resultVal = eval(sum2);
@@ -92,7 +92,7 @@ export default {
               result: state.resultVal,
             } as IResult);
             break;
-          case 'addProcessFirst':
+          } case 'addProcessFirst': {
             clickCENumAfterOpe = false;
 
             const sum3 = `${state.process}${state.clickVal}`;
@@ -102,7 +102,7 @@ export default {
               result: state.resultVal,
             } as IResult);
             break;
-          default: // 숫자만 클릭
+          } default: // 숫자만 클릭
             state.resultVal = eval(state.process);
             state.record = state.record.concat({
               process: state.process,
@@ -166,7 +166,7 @@ export default {
       const { val, controller } = payload;
 
       switch (controller) {
-        case 'operator':
+        case 'operator': {
           if (state.clickVal.slice(-1) === '.') { // '.' 다음에 바로 연산자가 오지 않게
             return;
           }
@@ -220,7 +220,7 @@ export default {
             clickOpe = true;
           }
           break;
-        case 'number':
+        } case 'number':
           if (val === '.' && (state.clickVal.includes('.') && !clickEnter)) {
             return;
           } // '.' 을 여러번 클릭해도 한번만 입력 되게

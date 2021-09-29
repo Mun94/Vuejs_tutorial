@@ -41,8 +41,6 @@
 </template>
 
 <script lang = 'ts'>
-import { inject } from 'vue';
-
 const options = {
   name: 'RecordPad',
   props: {
@@ -55,8 +53,6 @@ const options = {
 
 export default {
   ...options,
-  setup() {
-  },
 };
 </script>
 
