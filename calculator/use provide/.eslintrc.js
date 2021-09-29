@@ -33,6 +33,7 @@ module.exports = {
     //   tsx: 'never',
     //   'd.ts': 'never',
     // }],
+    'vue/require-explicit-emits': 'off', // 추가
     'import/extensions': 'off', // 추가
     'no-unused-vars': 'off', // 추가
     'no-param-reassign': 'off', // 추가

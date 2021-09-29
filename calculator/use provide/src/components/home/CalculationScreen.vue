@@ -7,8 +7,8 @@
       <font-awesome-icon
         icon="clock"
         class="icon alt"
+        @click="changeScreen"
       />
-       <!-- @click="changeScreen" -->
     </div>
     <div class="process">
       {{ process || "계산 과정" }}
@@ -20,21 +20,26 @@
 </template>
 
 <script lang = 'ts'>
-    import { inject } from 'vue';
+import { inject } from 'vue';
+import { TProcess, TResult } from '../../types';
 
-    const options = {
-        name: 'CalculationScreen'
-    };
+const options = {
+  name: 'CalculationScreen',
+};
 
-    export default {
-        ...options,
-        setup() {
-            const process = inject('processVal');
-            const result = inject('resultVal');
+export default {
+  ...options,
+  setup() {
+    const process: TProcess = inject('processVal');
+    const result: TResult = inject('resultVal');
 
-            return { process, result };
-        }
-    };
+    const changeScreen = inject('changeScreen');
+
+    console.log('changeScreen', changeScreen);
+
+    return { process, result, changeScreen };
+  },
+};
 
 </script>
 

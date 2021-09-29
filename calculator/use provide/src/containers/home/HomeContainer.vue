@@ -1,16 +1,17 @@
 <template>
   <div>
-    <CalculationScreen />
-    <CalculatorPadCon />
+    <CalculationScreenCon />
+    <component :is="togglePad" />
   </div>
 </template>
 
 <script lang = 'ts'>
 import {
-  reactive, toRefs, provide, readonly, ref,
+  reactive, toRefs, provide, readonly, ref, computed,
 } from 'vue';
 import CalculatorPadCon from './CalculatorPadCon.vue';
-import CalculationScreen from '../../components/home/CalculationScreen.vue';
+import CalculationScreenCon from './CalculationScreenCon.vue';
+import RecordPadCon from './RecordPadCon.vue';
 
 import {
   IState, IMutations, TCalculationActions, IResult, TArr, TCurrentVal, TCallResultRecord,
@@ -18,7 +19,7 @@ import {
 
 const options = {
   name: 'HomeContainer',
-  components: { CalculatorPadCon, CalculationScreen },
+  components: { CalculatorPadCon, CalculationScreenCon },
 };
 
 export default {
@@ -43,6 +44,10 @@ export default {
         checkCE: false,
         checkInfinityAndNaN: false,
       },
+    });
+
+    const changeScreenState: Pick<IState, 'check'> = reactive({
+      check: false,
     });
 
     let {
@@ -147,6 +152,13 @@ export default {
         state.record = [];
 
         return [];
+      },
+    };
+    const changeScreenMutaions: Pick<IMutations, 'CHANGE'> = {
+      CHANGE: () => {
+        changeScreenState.check = !changeScreenState.check;
+
+        return changeScreenState.check;
       },
     };
 
@@ -308,12 +320,24 @@ export default {
           break;
       }
     };
+    const togglePad = computed(() => {
+      const val = changeScreenState.check ? RecordPadCon : CalculatorPadCon;
 
-    const { process, clickVal } = toRefs(state);
-    provide('processVal', process);
-    provide('resultVal', clickVal);
-    provide('recordVal', readonly(state.record));
+      return val;
+    });
+
+    const { process, clickVal, record } = toRefs(state);
+    provide('processVal', readonly(process));
+    provide('resultVal', readonly(clickVal));
+    provide('recordVal', readonly(record));
+    provide('removeAllRecord', mutations.REMOVE_ALL_RECORD);
     provide('calculationActions', calculationActions);
+
+    // const { check } = toRefs(changeScreenState);
+    // provide('changeScreenState', readonly(check));
+    provide('changeScreen', changeScreenMutaions.CHANGE);
+
+    return { togglePad };
   },
 };
 </script>

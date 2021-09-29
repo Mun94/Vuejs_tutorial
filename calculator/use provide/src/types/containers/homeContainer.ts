@@ -37,7 +37,7 @@ export interface IMutations {
     REMOVE_ALL_RECORD: () => never[];
 
     // changeScreenContainer.vue
-    CHANGE: (state: Pick<IState, 'check'>) => boolean;
+    CHANGE: () => boolean;
 }
 
 export interface IResult {
