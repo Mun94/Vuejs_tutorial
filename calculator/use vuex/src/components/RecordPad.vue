@@ -95,28 +95,34 @@ export default {
   background: #272727;
   color: #ffffff;
 }
+
 .noneRecords {
   height: 320px;
   text-align: left;
 }
+
 .existRecords {
   height: 320px;
   overflow: auto;
   text-align: right;
 }
+
 .process {
   margin-top: 5px;
   word-break: break-word;
   letter-spacing: 5px;
 }
+
 .result {
   margin-top: 5px;
   font-size: 25px;
 }
+
 .remove {
   margin-top: 5px;
   text-align: right;
 }
+
 .remove svg {
   width: 20px;
   height: 25px;

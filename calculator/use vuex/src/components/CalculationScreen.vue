@@ -31,11 +31,9 @@ export default {
   name: 'CalculatorScreen',
   setup() {
     const store: TStore = useStore();
-
     const changeScreen: TChangeScreen = () => store.commit('CHANGE');
 
     const process: TProcess = computed(() => store.getters.processVal);
-
     const result: TResult = computed(() => store.getters.resultVal);
 
     return { process, result, changeScreen };
