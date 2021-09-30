@@ -40,4 +40,4 @@ export default defineComponent({
     background: #565656;
     width: 400px;
   }
-</style>>
+</style>

@@ -22,8 +22,13 @@ export default {
   setup(props: IData) {
     const { buttonType } = props;
 
+    const color = {
+      black: '#111111',
+      gray: '#343434',
+    };
+
     const backgroundColor: TBackgroundColor = computed(() => {
-      const val = ['number', 'plusMinus'].includes(buttonType) ? '#111111' : '#343434';
+      const val = ['number', 'plusMinus'].includes(buttonType) ? color.black : color.gray;
 
       return val;
     });
