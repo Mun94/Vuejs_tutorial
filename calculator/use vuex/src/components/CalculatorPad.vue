@@ -45,8 +45,13 @@ import {
   TClickEvent,
 } from '../types';
 
-export default {
+const options = {
   name: 'CalculatorPad',
+  components: { Button },
+};
+
+export default {
+  ...options,
   setup() {
     const store: TStore = useStore();
     const calculatorPadVals: TCalculatorPadVals = [
@@ -94,7 +99,6 @@ export default {
 
     return { clickEvent, calculatorPadVals };
   },
-  components: { Button },
 } as ICalculatorPad;
 </script>
 

@@ -12,13 +12,17 @@ import {
   IData, IButton, TBackgroundColor,
 } from '../../types';
 
-export default {
+const options = {
   name: 'Button',
   props: {
     buttonType: {
       type: String,
     },
   },
+};
+
+export default {
+  ...options,
   setup(props: IData) {
     const { buttonType } = props;
 

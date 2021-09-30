@@ -51,8 +51,13 @@ import {
   TStore, IRecordPad, TModalOpen, TRecordVal, TRecords, TRemoveAllRecord, TToggleModal,
 } from '../types';
 
-export default {
+const options = {
   name: 'RecordPad',
+  components: { Modal },
+};
+
+export default {
+  ...options,
   setup() {
     const store: TStore = useStore();
     const modalOpen: TModalOpen = ref(false);
@@ -85,7 +90,6 @@ export default {
       toggleModal,
     };
   },
-  components: { Modal },
 } as IRecordPad;
 </script>
 

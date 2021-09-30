@@ -27,8 +27,12 @@ import {
   TStore, ICalculationScreen, TProcess, TResult, TChangeScreen,
 } from '../types';
 
-export default {
+const options = {
   name: 'CalculatorScreen',
+};
+
+export default {
+  ...options,
   setup() {
     const store: TStore = useStore();
     const changeScreen: TChangeScreen = () => store.commit('CHANGE');

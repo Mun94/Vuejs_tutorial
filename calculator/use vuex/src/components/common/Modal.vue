@@ -17,7 +17,7 @@
 <script lang = 'ts'>
 import { IModal } from '../../types';
 
-export default {
+const options = {
   name: 'Modal',
   props: {
     modalOpen: {
@@ -26,6 +26,10 @@ export default {
     },
   },
   emits: ['toggleModal'],
+};
+
+export default {
+  ...options,
 } as IModal;
 </script>
 

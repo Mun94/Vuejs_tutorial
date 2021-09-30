@@ -30,7 +30,7 @@ export interface IMutations {
     RESULT_AND_RECORD: (state: IState, payload: string) => void;
     CLEAR: (state: IState) => void;
     CLEAR_ENTRY: (state: IState) => string;
-    REMOVE_ALL_RECORD: (state: IState) => never[];
+    REMOVE_ALL_RECORD: (state: IState) => [];
 
     // changeScreen.ts
     CHANGE: (state: Pick<IState, 'check'>) => boolean;
