@@ -1,18 +1,27 @@
 <template>
   <div>
-    <ul>
-      <PostListItem
-        v-for="postItem in postItems"
-        :key="postItem._id"
-        :postItem="postItem"
-      />
-    </ul>
+    <div v-if="isLoading">
+      Loading...
+    </div>
+    <div v-else>
+      <ul>
+        <PostListItem
+          v-for="postItem in postItems"
+          :key="postItem._id"
+          :postItem="postItem"
+          @refresh="fetchData"
+        />
+      </ul>
+    </div>
+    <router-link to="/add">
+      +
+    </router-link>
   </div>
 </template>
 
 <script>
 import PostListItem from '@/components/posts/PostListItem.vue';
-import { fetchPosts } from '@/api/index';
+import { fetchPosts } from '@/api/posts';
 
 export default {
   components: {
@@ -21,11 +30,14 @@ export default {
   data() {
     return {
       postItems: [],
+      isLoading: false,
     };
   },
   methods: {
     async fetchData() {
+      this.isLoading = true;
       const { data } = await fetchPosts();
+      this.isLoading = false;
       this.postItems = data.posts;
     },
   },
