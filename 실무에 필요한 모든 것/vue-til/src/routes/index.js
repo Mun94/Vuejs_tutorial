@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store';
 
 Vue.use(VueRouter); // 플러그인을 실행하기 위해서
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -25,6 +26,13 @@ export default new VueRouter({
     {
       path: '/add',
       component: () => import('@/views/PostAddPage.vue'),
+      meta: {
+        auth: true,
+      },
+    },
+    {
+      path: '/post/:id',
+      component: () => import('@/views/PostEditPage.vue'),
     },
     {
       path: '*',
@@ -32,3 +40,15 @@ export default new VueRouter({
     },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !store.getters.isLogin) {
+    console.log(to);
+    console.log('인증이 필요합니다.');
+    next('/login');
+    return;
+  }
+  next();
+});
+
+export default router;
